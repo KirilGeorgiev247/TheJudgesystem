@@ -21,7 +21,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\TheJudgesystem.Data.Common\TheJudgesystem.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\TheJudgesystem.Data.Models\TheJudgesystem.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\TheJudgesystem.Web.ViewModels\TheJudgesystem.Web.ViewModels.csproj" />
     <ProjectReference Include="..\TheJudgesystem.Services.Mapping\TheJudgesystem.Services.Mapping.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\" />
   </ItemGroup>
 
 </Project>

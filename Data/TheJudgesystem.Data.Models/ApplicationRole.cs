@@ -3,9 +3,8 @@ namespace TheJudgesystem.Data.Models
 {
     using System;
 
-    using TheJudgesystem.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using TheJudgesystem.Data.Common.Models;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {

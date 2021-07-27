@@ -4,9 +4,8 @@ namespace TheJudgesystem.Data.Models
     using System;
     using System.Collections.Generic;
 
-    using TheJudgesystem.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using TheJudgesystem.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {

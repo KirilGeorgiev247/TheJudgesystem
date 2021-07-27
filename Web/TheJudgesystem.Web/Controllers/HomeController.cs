@@ -2,9 +2,8 @@
 {
     using System.Diagnostics;
 
-    using TheJudgesystem.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
+    using TheJudgesystem.Web.ViewModels;
 
     public class HomeController : BaseController
     {
@@ -14,6 +13,11 @@
         }
 
         public IActionResult Privacy()
+        {
+            return this.View();
+        }
+
+        public IActionResult Role()
         {
             return this.View();
         }

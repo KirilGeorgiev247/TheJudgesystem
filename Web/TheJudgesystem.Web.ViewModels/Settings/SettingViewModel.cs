@@ -1,9 +1,8 @@
 ﻿namespace TheJudgesystem.Web.ViewModels.Settings
 {
+    using AutoMapper;
     using TheJudgesystem.Data.Models;
     using TheJudgesystem.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {
