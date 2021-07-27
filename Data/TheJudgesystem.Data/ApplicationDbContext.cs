@@ -6,11 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using TheJudgesystem.Data.Common.Models;
-    using TheJudgesystem.Data.Models;
-
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using TheJudgesystem.Data.Common.Models;
+    using TheJudgesystem.Data.Models;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -25,6 +24,30 @@
         }
 
         public DbSet<Setting> Settings { get; set; }
+
+        public DbSet<Lawyer> Lawyers { get; set; }
+
+        public DbSet<Judge> Judges { get; set; }
+
+        public DbSet<Witness> Witnesses { get; set; }
+
+        public DbSet<Defendant> Defendants { get; set; }
+
+        public DbSet<Prison> Prisons { get; set; }
+
+        public DbSet<Guard> Guards { get; set; }
+
+        public DbSet<CV> CVs { get; set; }
+
+        public DbSet<Cell> Cells { get; set; }
+
+        public DbSet<Jury> Juries { get; set; }
+
+        public DbSet<JuryMember> JuryMembers { get; set; }
+
+        public DbSet<Prosecutor> Prosecutors { get; set; }
+
+        public DbSet<Case> Cases { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

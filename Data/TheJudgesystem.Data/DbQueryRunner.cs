@@ -3,9 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
-    using TheJudgesystem.Data.Common;
-
     using Microsoft.EntityFrameworkCore;
+    using TheJudgesystem.Data.Common;
 
     public class DbQueryRunner : IDbQueryRunner
     {
