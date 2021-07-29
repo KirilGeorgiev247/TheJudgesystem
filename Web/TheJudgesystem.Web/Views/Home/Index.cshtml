@@ -3,13 +3,22 @@
     this.ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (!User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
+        <p><a href="/Identity/Account/Register">Register</a> if you are new!</p>
+        <p><a href="/Identity/Account/Login">Login</a> if you already have an account!</p>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <form action="/Home/Role" method="get">
+            <label class="text-justify">We need to identify your role!</label>
+            <input class="form-control col-md-6 offset-3 text-primary" type="submit" name="role" value="Choose Your Role" />
+        </form>
+    </div>
+}
 
-<div class="text-center">
-    <form action="/Home/Role" method="get">
-        <input type="submit" name="role" value="Choose Your Role" />
-    </form>
-</div>
+

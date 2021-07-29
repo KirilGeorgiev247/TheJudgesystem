@@ -16,13 +16,14 @@
         [Required]
         public string ImageUrl { get; set; }
 
-        [Required]
-        public string Indications { get; set; }
+        public Indication Indication { get; set; }
+
+        [ForeignKey(nameof(Indication))]
+        public int? IndicationId { get; set; }
 
         public Case Case { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Case))]
-        public int CaseId { get; set; }
+        public int? CaseId { get; set; }
     }
 }

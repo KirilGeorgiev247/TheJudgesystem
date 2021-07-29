@@ -13,13 +13,11 @@
         [Required]
         public string LastName { get; set; }
 
-        [Required]
         public string Opinion { get; set; }
 
         public Jury Jury { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Jury))]
-        public int JuryId { get; set; }
+        public int? JuryId { get; set; }
     }
 }

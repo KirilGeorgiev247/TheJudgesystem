@@ -24,9 +24,8 @@
 
         public Case Case { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Case))]
-        public int CaseId { get; set; }
+        public int? CaseId { get; set; }
 
         public Lawyer Lawyer { get; set; }
 
@@ -38,6 +37,7 @@
         [ForeignKey(nameof(Cell))]
         public int? CellId { get; set; }
 
+        [Required]
         public string Job { get; set; }
 
         public bool IsGuilty { get; set; }

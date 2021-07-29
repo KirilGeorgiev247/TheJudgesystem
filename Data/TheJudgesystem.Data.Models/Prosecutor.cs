@@ -18,17 +18,14 @@
 
         public Case Case { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Case))]
-        public int CaseId { get; set; }
+        public int? CaseId { get; set; }
 
         public Defendant Defendant { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Defendant))]
-        public int DefendantId { get; set; }
+        public int? DefendantId { get; set; }
 
-        [Required]
         public string Raises { get; set; }
     }
 }

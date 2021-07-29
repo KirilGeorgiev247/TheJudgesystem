@@ -1,16 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using TheJudgesystem.Web.ViewModels.Roles;
-
-namespace TheJudgesystem.Services.Data
+﻿namespace TheJudgesystem.Services.Data
 {
+    using System.Threading.Tasks;
+
+    using TheJudgesystem.Web.ViewModels.Roles;
+
     public interface IRolesService
     {
 
         public Task AddLawyer(LawyerInputModel lawyer);
 
+        public Task AddJudge(JudgeInputModel judge);
 
+        public Task AddWitness(WitnessInputModel witness);
+
+        public Task AddProsecutor(ProsecutorInputModel prosecutor);
+
+        public Task AddDefendant(DefendantInputModel defendant);
+
+        public Task AddGuard(GuardInputModel guard);
+
+        public Task AddJuryMember(JuryMemberInputModel juryMember);
     }
 }

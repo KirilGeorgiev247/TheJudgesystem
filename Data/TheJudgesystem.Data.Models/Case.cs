@@ -1,6 +1,7 @@
 ﻿namespace TheJudgesystem.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,6 +12,7 @@
         public Case()
         {
             this.IsSolved = false;
+            this.Indications = new HashSet<Indication>();
         }
 
         public Defendant Defendant { get; set; }
@@ -44,5 +46,7 @@
         public DateTime Date { get; set; }
 
         public bool IsSolved { get; set; }
+
+        public ICollection<Indication> Indications { get; set; }
     }
 }

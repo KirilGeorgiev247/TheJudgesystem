@@ -2,7 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using TheJudgesystem.Data.Common.Models;
 
     public class Guard : BaseDeletableModel<int>
@@ -22,5 +22,10 @@
 
         [Required]
         public decimal Salary { get; set; }
+
+        public Prison Prison { get; set; }
+
+        [ForeignKey(nameof(Prison))]
+        public int? PrisonId { get; set; }
     }
 }

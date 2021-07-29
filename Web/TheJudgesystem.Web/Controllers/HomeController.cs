@@ -1,7 +1,7 @@
 ﻿namespace TheJudgesystem.Web.Controllers
 {
     using System.Diagnostics;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TheJudgesystem.Web.ViewModels;
 
@@ -17,6 +17,7 @@
             return this.View();
         }
 
+        [Authorize]
         public IActionResult Role()
         {
             return this.View();
