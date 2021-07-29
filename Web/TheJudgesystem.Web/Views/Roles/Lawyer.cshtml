@@ -1,0 +1,84 @@
+﻿@model TheJudgesystem.Web.ViewModels.Roles.LawyerInputModel
+
+<form method="post" class="col-md-6 offset-3">
+    <div asp-validation-summary="All"></div>
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+    <div class="form-group">
+        <label asp-for="FirstName">First name: </label>
+        <input asp-for="FirstName" class="form-control"> <br />
+        <span asp-validation-for="FirstName" class="alert-danger"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+    <div>
+        <label asp-for="LastName">Last name: </label>
+        <input asp-for="LastName" class="form-control"> <br />
+        <span asp-validation-for="LastName" class="alert-danger"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+    <div>
+        <label asp-for="Age">Age: </label>
+        <input asp-for="Age" class="form-control"> <br />
+        <span asp-validation-for="Age" class="alert-danger"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+    <div>
+        <label asp-for="ImageUrl">ImageUrl: </label>
+        <input asp-for="ImageUrl" class="form-control"> <br />
+        <span asp-validation-for="ImageUrl" class="alert-danger"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+    <div>
+        <label asp-for="Salary">Salary: </label>
+        <input asp-for="Salary" class="form-control"> <br />
+        <span asp-validation-for="Salary" class="alert-danger"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+    <div>
+        <label asp-for="BirthTown">Birth town: </label>
+        <input asp-for="BirthTown" class="form-control"> <br />
+        <span asp-validation-for="BirthTown" class="alert-danger"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+    <div>
+        <label asp-for="School">School: </label>
+        <input asp-for="School" class="form-control"> <br />
+        <span asp-validation-for="School" class="alert-danger"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+    <div>
+        <label asp-for="University">University: </label>
+        <input asp-for="University" class="form-control"> <br />
+        <span asp-validation-for="University" class="alert-danger"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+        <div>
+            <label asp-for="Achievements">Achievements: </label>
+            <textarea asp-for="Achievements" class="form-control" rows="10"> </textarea> <br />
+            <span asp-validation-for="Achievements" class="alert-danger"></span>
+        </div>
+
+    @*<div id="AchievementsContainer">
+        <label asp-for="Achievements"></label>
+        <a class="btn btn-success" onclick="AddMoreAchievements()">+</a>
+
+    </div>*@
+
+    <button type="submit" class="btn btn-info">Submit</button>
+</form>
+
+
+@*@section Scripts{
+    <script>
+        function AddMoreAchievements() {
+            $("#AchievementsContainer").append("<div class='form-group'>Achievement: <input class='form-control' type='text' name='' id=''/></div>");
+        }
+    </script>
+}*@
