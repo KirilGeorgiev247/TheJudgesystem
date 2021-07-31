@@ -25,6 +25,13 @@
 
     <div asp-validation-summary="ModelOnly" class="form-group"></div>
     <div>
+        <label asp-for="Job">Job: </label>
+        <input asp-for="Job" class="form-control"> <br />
+        <span asp-validation-for="Job" class="alert-danger"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+    <div>
         <label asp-for="Charges">Charges: </label>
         <textarea asp-for="Charges" class="form-control" rows="10"> </textarea> <br />
         <span asp-validation-for="Charges" class="alert-danger"></span>

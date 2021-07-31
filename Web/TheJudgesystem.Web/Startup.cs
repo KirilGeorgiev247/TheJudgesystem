@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -17,6 +18,7 @@
     using TheJudgesystem.Data.Repositories;
     using TheJudgesystem.Data.Seeding;
     using TheJudgesystem.Services.Data;
+    using TheJudgesystem.Services.Data.PeopleServices;
     using TheJudgesystem.Services.Mapping;
     using TheJudgesystem.Services.Messaging;
     using TheJudgesystem.Web.ViewModels;
@@ -37,7 +39,25 @@
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+                //    options =>
+                //{
+                //    options.SignIn.RequireConfirmedAccount = false;
+                //})
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //services.AddIdentity<ApplicationUser, ApplicationRole>()
+            //    .AddDefaultUI()
+            //    .AddRoles<ApplicationRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    "IsDefendant",
+                    policy => policy.RequireRole("Defendant"));
+            });
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -65,6 +85,7 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IRolesService, RolesService>();
+            services.AddTransient<IDefendantService, DefendantService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

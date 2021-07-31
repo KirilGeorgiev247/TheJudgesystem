@@ -3,17 +3,23 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using TheJudgesystem.Data.Models;
     using TheJudgesystem.Services.Data;
     using TheJudgesystem.Web.ViewModels.Roles;
 
     public class RolesController : Controller
     {
         private readonly IRolesService rolesService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public RolesController(IRolesService rolesService)
+        public RolesController(
+            IRolesService rolesService,
+            UserManager<ApplicationUser> userManager)
         {
             this.rolesService = rolesService;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -32,7 +38,7 @@
                 return this.View();
             }
 
-            await this.rolesService.AddLawyer(input);
+            await this.rolesService.AddLawyer(input, this.User);
 
             // User becomes lawyer
 
@@ -55,7 +61,7 @@
                 return this.View();
             }
 
-            await this.rolesService.AddJudge(input);
+            await this.rolesService.AddJudge(input, this.User);
 
             // User becomes judge
 
@@ -78,7 +84,7 @@
                 return this.View();
             }
 
-            await this.rolesService.AddWitness(input);
+            await this.rolesService.AddWitness(input, this.User);
 
             // User becomes witness
 
@@ -101,7 +107,7 @@
                 return this.View();
             }
 
-            await this.rolesService.AddProsecutor(input);
+            await this.rolesService.AddProsecutor(input, this.User);
 
             // User becomes prosecutor
 
@@ -124,11 +130,11 @@
                 return this.View();
             }
 
-            await this.rolesService.AddDefendant(input);
+            await this.rolesService.AddDefendant(input, this.User);
 
             // User becomes defendant
 
-            return this.Redirect("/Home");
+            return this.Redirect("/Defendant/Lawyers");
         }
 
         [HttpGet]
@@ -147,7 +153,7 @@
                 return this.View();
             }
 
-            await this.rolesService.AddGuard(input);
+            await this.rolesService.AddGuard(input, this.User);
 
             // User becomes guard
 
@@ -170,7 +176,7 @@
                 return this.View();
             }
 
-            await this.rolesService.AddJuryMember(input);
+            await this.rolesService.AddJuryMember(input, this.User);
 
             // User becomes juryMember
 
