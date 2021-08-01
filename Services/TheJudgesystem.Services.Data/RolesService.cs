@@ -74,6 +74,7 @@
 
             var realLawyer = new Lawyer
             {
+                UserId = this.GetUser(user).Id,
                 FirstName = lawyer.FirstName,
                 LastName = lawyer.LastName,
                 ImageUrl = lawyer.ImageUrl,
@@ -100,7 +101,7 @@
                 University = judge.University,
             };
 
-            if (judge.Achievements.Length < 5)
+            if (string.IsNullOrEmpty(judge.Achievements))
             {
                 realCV.Achievements = "Not given!";
             }
@@ -114,6 +115,7 @@
 
             var realJudge = new Judge
             {
+                UserId = this.GetUser(user).Id,
                 FirstName = judge.FirstName,
                 LastName = judge.LastName,
                 ImageUrl = judge.ImageUrl,
@@ -131,6 +133,7 @@
         {
             var realWitness = new Witness
             {
+                UserId = this.GetUser(user).Id,
                 FirstName = witness.FirstName,
                 LastName = witness.LastName,
                 ImageUrl = witness.ImageUrl,
@@ -146,6 +149,7 @@
         {
             var realProsecutor = new Prosecutor
             {
+                UserId = this.GetUser(user).Id,
                 FirstName = prosecutor.FirstName,
                 LastName = prosecutor.LastName,
                 ImageUrl = prosecutor.ImageUrl,
@@ -161,6 +165,7 @@
         {
             var realDefendant = new Defendant
             {
+                UserId = this.GetUser(user).Id,
                 FirstName = defendant.FirstName,
                 LastName = defendant.LastName,
                 ImageUrl = defendant.ImageUrl,
@@ -179,6 +184,7 @@
         {
             var realGuard = new Guard
             {
+                UserId = this.GetUser(user).Id,
                 FirstName = guard.FirstName,
                 LastName = guard.LastName,
                 ImageUrl = guard.ImageUrl,
@@ -195,6 +201,7 @@
         {
             var realJuryMember = new JuryMember
             {
+                UserId = this.GetUser(user).Id,
                 FirstName = juryMember.FirstName,
                 LastName = juryMember.LastName,
             };
@@ -222,6 +229,13 @@
                 var currentUser = await this.userManager.GetUserAsync(user);
                 await this.userManager.AddToRoleAsync(currentUser, role);
             }
+        }
+
+        private async Task<ApplicationUser> GetUser(ClaimsPrincipal user)
+        {
+            var currentUser = await this.userManager.GetUserAsync(user);
+
+            return currentUser;
         }
     }
 }

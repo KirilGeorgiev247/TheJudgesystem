@@ -12,6 +12,8 @@
         {
             this.Cases = new HashSet<Case>();
         }
+        public int UserId { get; set; }
+
 
         [Required]
         public string FirstName { get; set; }

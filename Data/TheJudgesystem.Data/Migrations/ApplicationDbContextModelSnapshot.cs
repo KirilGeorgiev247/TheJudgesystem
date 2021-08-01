@@ -331,16 +331,16 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<int?>("JudgeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("JuryId")
+                    b.Property<int?>("JuryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("LawyerId")
+                    b.Property<int?>("LawyerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ProsecutorId")
+                    b.Property<int?>("ProsecutorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -445,6 +445,9 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<int?>("PrisonId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CaseId");
@@ -502,6 +505,9 @@ namespace TheJudgesystem.Data.Migrations
 
                     b.Property<DateTime>("StartOfTheWorkDay")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -589,6 +595,9 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CVId");
@@ -619,6 +628,9 @@ namespace TheJudgesystem.Data.Migrations
 
                     b.Property<string>("Pronouncement")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -659,6 +671,9 @@ namespace TheJudgesystem.Data.Migrations
 
                     b.Property<string>("Opinion")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -708,6 +723,9 @@ namespace TheJudgesystem.Data.Migrations
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -792,6 +810,9 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<string>("Raises")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CaseId");
@@ -872,6 +893,9 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CaseId");
@@ -948,21 +972,15 @@ namespace TheJudgesystem.Data.Migrations
 
                     b.HasOne("TheJudgesystem.Data.Models.Jury", "Jury")
                         .WithMany()
-                        .HasForeignKey("JuryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("JuryId");
 
                     b.HasOne("TheJudgesystem.Data.Models.Lawyer", "Lawyer")
                         .WithMany("Cases")
-                        .HasForeignKey("LawyerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("LawyerId");
 
                     b.HasOne("TheJudgesystem.Data.Models.Prosecutor", "Prosecutor")
                         .WithMany()
-                        .HasForeignKey("ProsecutorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ProsecutorId");
 
                     b.Navigation("Defendant");
 

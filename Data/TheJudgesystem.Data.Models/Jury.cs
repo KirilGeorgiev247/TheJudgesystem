@@ -11,6 +11,8 @@
             this.Members = new HashSet<JuryMember>();
         }
 
+        public int UserId { get; set; }
+
         public ICollection<JuryMember> Members { get; set; }
 
         public string Pronouncement { get; set; }

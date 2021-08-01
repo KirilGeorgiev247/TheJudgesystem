@@ -23,26 +23,22 @@
 
         public Lawyer Lawyer { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Lawyer))]
-        public int LawyerId { get; set; }
+        public int? LawyerId { get; set; }
 
         public Jury Jury { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Jury))]
-        public int JuryId { get; set; }
+        public int? JuryId { get; set; }
 
         public Prosecutor Prosecutor { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Prosecutor))]
-        public int ProsecutorId { get; set; }
+        public int? ProsecutorId { get; set; }
 
         [Required]
         public string Description { get; set; }
 
-        [Required]
         public DateTime Date { get; set; }
 
         public bool IsSolved { get; set; }

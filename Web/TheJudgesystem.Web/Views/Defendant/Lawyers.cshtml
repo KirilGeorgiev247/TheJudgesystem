@@ -1,0 +1,80 @@
+﻿@using TheJudgesystem.Web.ViewModels.Defendants
+@model LawyersListViewModel
+
+<h1 class="text-center mt-2">Choose from the best lawyers to solve your case!</h1>
+<hr />
+<div class="row mt-2 mb-4">
+    @foreach (var lawyer in this.Model.Lawyers)
+    {
+<div class="col-6 col-lg-3">
+    <img src="@lawyer.ImageUrl"
+         class="img-fluid">
+    <div class="align-content-lg-center">
+        <h5 class="card-title text-center" data-toggle="tooltip" data-placement="bottom">
+            <span class="text-center">@lawyer.FirstName</span>
+            <span class="text-center">@lawyer.LastName</span>
+            @if (@lawyer.Rating != 0)
+            {
+<span class="text-center">@lawyer.Rating</span> }
+else
+{
+<span class="text-center">Be the first one to rate!</span>}
+            <span class="text-center">@lawyer.Salary</span>
+        </h5>
+
+        <div class="form-group">
+
+            <div id="CvContainer" style="display:none">
+                <div class="text-center">
+                    <label class="text-black-50">Age:</label>
+                    <span class="text-center">@lawyer.CV.Age</span>
+                </div>
+                <div class="text-center">
+                    <label class="text-black-50">School:</label>
+                    <span class="text-center">@lawyer.CV.School</span>
+                </div>
+                <div class="text-center">
+                    <label class="text-black-50">Birthtown:</label>
+                    <span class="text-center">@lawyer.CV.BirthTown</span>
+                </div>
+                <div class="text-center">
+                    <label class="text-black-50">University:</label>
+                    <span class="text-center">@lawyer.CV.University</span>
+                </div>
+                <div class="text-center">
+                    <label class="text-black-50">Achivements:</label>
+                    <span class="text-center">@lawyer.CV.Achievements</span>
+                </div>
+            </div>
+
+            <a id="CvButton" class="btn btn-light" onclick="ShowCv()">Show CV</a>
+        </div>
+
+        <a asp-controller="Cases" asp-action="CreateCase" asp-route-id="@lawyer.Id" class="btn btn-block btn-primary">Hire</a>
+    </div>
+</div>}
+</div>
+
+<partial name="_PagingPartial" model="@Model" />
+
+@section Scripts
+{
+    <script>
+        function ShowCv() {
+            var element = document.getElementById("CvContainer");
+            var button = document.getElementById("CvButton");
+            if (element.style.display === "none") {
+                element.style.display = "block";
+                button.innerHTML = "Hide CV";
+            } else {
+                element.style.display = "none";
+                button.innerHTML = "Show CV";
+            }
+        }
+    </script>
+}
+
+@*
+    card col-6 col-lg-3 game-card
+    pers-img-top img-fluid card-image
+*@

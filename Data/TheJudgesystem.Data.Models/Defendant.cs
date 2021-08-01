@@ -13,6 +13,8 @@
             this.IsGuilty = false;
         }
 
+        public int UserId { get; set; }
+    
         [Required]
         public string FirstName { get; set; }
 

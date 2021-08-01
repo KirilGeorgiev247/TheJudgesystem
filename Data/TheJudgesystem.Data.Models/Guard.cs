@@ -7,6 +7,8 @@
 
     public class Guard : BaseDeletableModel<int>
     {
+        public int UserId { get; set; }
+
         [Required]
         public string FirstName { get; set; }
 

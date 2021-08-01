@@ -57,6 +57,24 @@
                 options.AddPolicy(
                     "IsDefendant",
                     policy => policy.RequireRole("Defendant"));
+                options.AddPolicy(
+                    "IsLawyer",
+                    policy => policy.RequireRole("Lawyer"));
+                options.AddPolicy(
+                    "IsWitness",
+                    policy => policy.RequireRole("Witness"));
+                options.AddPolicy(
+                    "IsJudge",
+                    policy => policy.RequireRole("Judge"));
+                options.AddPolicy(
+                    "IsMemberOfJury",
+                    policy => policy.RequireRole("JuryMember"));
+                options.AddPolicy(
+                    "IsProsecutor",
+                    policy => policy.RequireRole("Prosecutor"));
+                options.AddPolicy(
+                    "IsGuard",
+                    policy => policy.RequireRole("Guard"));
             });
 
             services.Configure<CookiePolicyOptions>(
@@ -86,6 +104,12 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IRolesService, RolesService>();
             services.AddTransient<IDefendantService, DefendantService>();
+            services.AddTransient<IJudgesService, JudgesService>();
+            services.AddTransient<IJuryMembersService, JuryMembersService>();
+            services.AddTransient<ILawyersService, LawyersService>();
+            services.AddTransient<IProsecutorsService, ProsecutorsService>();
+            services.AddTransient<IGuardsService, GuardsService>();
+            services.AddTransient<IWitnessesService, WitnessesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
