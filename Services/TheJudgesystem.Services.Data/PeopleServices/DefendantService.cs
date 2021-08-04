@@ -12,18 +12,18 @@
 
     public class DefendantService : IDefendantService
     {
+        private readonly IUsersService usersService;
         private readonly IDeletableEntityRepository<Lawyer> lawyersRepository;
         private readonly IDeletableEntityRepository<Defendant> defendantsRepository;
-        private readonly UserManager<ApplicationUser> userManager;
 
         public DefendantService(
+            IUsersService usersService,
             IDeletableEntityRepository<Lawyer> lawyersRepository,
-            IDeletableEntityRepository<Defendant> defendantsRepository,
-            UserManager<ApplicationUser> userManager)
+            IDeletableEntityRepository<Defendant> defendantsRepository)
         {
+            this.usersService = usersService;
             this.lawyersRepository = lawyersRepository;
             this.defendantsRepository = defendantsRepository;
-            this.userManager = userManager;
         }
 
         public int GetCount()
@@ -31,9 +31,15 @@
             return this.lawyersRepository.AllAsNoTracking().Count();
         }
 
+        public Defendant GetDefendant(ClaimsPrincipal user)
+        {
+            var userId = this.usersService.GetApplicationUserId(user);
+            return this.defendantsRepository.All().FirstOrDefault(x => x.UserId == userId);
+        }
+
         public IEnumerable<LawyerInList> GetLawyers(int page, int itemsPerPage = 6)
         {
-            return this.lawyersRepository.AllAsNoTracking()
+            return this.lawyersRepository.All()
                 .OrderByDescending(x => x.Rating)
                 .ThenByDescending(x => x.Id)
                 .Skip((page - 1) * itemsPerPage)
@@ -59,23 +65,29 @@
                 .ToList();
         }
 
+        public bool HasLawyer(ClaimsPrincipal user)
+        {
+            var defendant = this.GetDefendant(user);
+
+            if (defendant.Lawyer != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task HireLawyer(int id, ClaimsPrincipal user)
         {
-            var defendant = this.defendantsRepository.All().FirstOrDefault(x => x.UserId == this.GetUser(user).Id);
+            var defendant = this.GetDefendant(user);
             var lawyer = this.lawyersRepository.All().FirstOrDefault(x => x.Id == id);
 
-            defendant.LawyerId = id;
+            defendant.Lawyer = lawyer;
+            defendant.LawyerId = lawyer.Id;
             lawyer.Clients.Add(defendant);
 
             await this.defendantsRepository.SaveChangesAsync();
             await this.lawyersRepository.SaveChangesAsync();
-        }
-
-        private async Task<ApplicationUser> GetUser(ClaimsPrincipal user)
-        {
-            var currentUser = await this.userManager.GetUserAsync(user);
-
-            return currentUser;
         }
     }
 }

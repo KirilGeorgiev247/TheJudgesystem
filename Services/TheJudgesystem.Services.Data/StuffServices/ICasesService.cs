@@ -10,7 +10,7 @@ namespace TheJudgesystem.Services.Data.StuffServices
     public interface ICasesService
     {
 
-        public Task AddCase(CaseInputModel input, ClaimsPrincipal user);
+        public Task AddCase(CaseInputModel input, ClaimsPrincipal user, int id);
 
     }
 }

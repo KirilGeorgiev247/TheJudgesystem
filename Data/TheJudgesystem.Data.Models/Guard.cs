@@ -7,7 +7,7 @@
 
     public class Guard : BaseDeletableModel<int>
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         public string FirstName { get; set; }
@@ -15,9 +15,9 @@
         [Required]
         public string LastName { get; set; }
 
-        public DateTime StartOfTheWorkDay { get; set; }
+        public DateTime? StartOfTheWorkDay { get; set; }
 
-        public DateTime EndOfTheWorkDay { get; set; }
+        public DateTime? EndOfTheWorkDay { get; set; }
 
         [Required]
         public string ImageUrl { get; set; }

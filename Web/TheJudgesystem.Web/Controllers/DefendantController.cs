@@ -4,22 +4,29 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using TheJudgesystem.Services.Data;
     using TheJudgesystem.Services.Data.PeopleServices;
     using TheJudgesystem.Web.ViewModels.Defendants;
 
-    [Authorize(Policy = "IsDefendant")]
+    [Authorize(Roles = "Defendant")]
     public class DefendantController : Controller
     {
         private readonly IDefendantService defendantService;
 
-        public DefendantController(IDefendantService defendantService)
+        public DefendantController(
+            IDefendantService defendantService)
         {
             this.defendantService = defendantService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Lawyers(int id = 1)
+        public IActionResult Lawyers(int id = 1)
         {
+            if (this.defendantService.HasLawyer(this.User))
+            {
+                this.Redirect("/Defendant/Info");
+            }
+
             var itemsCount = 6;
 
             var lawyers = new LawyersListViewModel
@@ -37,7 +44,7 @@
         {
             await this.defendantService.HireLawyer(id, this.User);
 
-            return this.Redirect("/Home");
+            return this.Redirect("/Defendant/Lawyers");
         }
 
     }

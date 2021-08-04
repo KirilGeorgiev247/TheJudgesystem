@@ -49,6 +49,8 @@
 
         public DbSet<Case> Cases { get; set; }
 
+        public DbSet<Indication> Indications { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

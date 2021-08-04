@@ -12,14 +12,17 @@
     public class RolesController : Controller
     {
         private readonly IRolesService rolesService;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUsersService usersService;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
         public RolesController(
             IRolesService rolesService,
-            UserManager<ApplicationUser> userManager)
+            IUsersService usersService,
+            SignInManager<ApplicationUser> signInManager)
         {
             this.rolesService = rolesService;
-            this.userManager = userManager;
+            this.usersService = usersService;
+            this.signInManager = signInManager;
         }
 
         [HttpGet]
@@ -39,6 +42,10 @@
             }
 
             await this.rolesService.AddLawyer(input, this.User);
+
+            await this.usersService.GetRole("Lawyer", this.User);
+
+            await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 
             // User becomes lawyer
 
@@ -63,6 +70,10 @@
 
             await this.rolesService.AddJudge(input, this.User);
 
+            await this.usersService.GetRole("Judge", this.User);
+
+            await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
+
             // User becomes judge
 
             return this.Redirect("/Home");
@@ -85,6 +96,10 @@
             }
 
             await this.rolesService.AddWitness(input, this.User);
+
+            await this.usersService.GetRole("Witness", this.User);
+
+            await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 
             // User becomes witness
 
@@ -109,6 +124,10 @@
 
             await this.rolesService.AddProsecutor(input, this.User);
 
+            await this.usersService.GetRole("Prosecutor", this.User);
+
+            await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
+
             // User becomes prosecutor
 
             return this.Redirect("/Home");
@@ -131,6 +150,10 @@
             }
 
             await this.rolesService.AddDefendant(input, this.User);
+
+            await this.usersService.GetRole("Defendant", this.User);
+
+            await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 
             // User becomes defendant
 
@@ -155,6 +178,10 @@
 
             await this.rolesService.AddGuard(input, this.User);
 
+            await this.usersService.GetRole("Guard", this.User);
+
+            await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
+
             // User becomes guard
 
             return this.Redirect("/Home");
@@ -177,6 +204,10 @@
             }
 
             await this.rolesService.AddJuryMember(input, this.User);
+
+            await this.usersService.GetRole("JuryMember", this.User);
+
+            await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 
             // User becomes juryMember
 

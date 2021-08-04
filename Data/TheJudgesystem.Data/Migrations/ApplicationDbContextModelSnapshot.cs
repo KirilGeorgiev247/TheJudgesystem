@@ -309,7 +309,7 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DefendantId")
@@ -445,8 +445,8 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<int?>("PrisonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -476,7 +476,7 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndOfTheWorkDay")
+                    b.Property<DateTime?>("EndOfTheWorkDay")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
@@ -503,11 +503,11 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("StartOfTheWorkDay")
+                    b.Property<DateTime?>("StartOfTheWorkDay")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -555,7 +555,7 @@ namespace TheJudgesystem.Data.Migrations
 
                     b.HasIndex("WitnessId");
 
-                    b.ToTable("Indication");
+                    b.ToTable("Indications");
                 });
 
             modelBuilder.Entity("TheJudgesystem.Data.Models.Judge", b =>
@@ -595,8 +595,8 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -628,9 +628,6 @@ namespace TheJudgesystem.Data.Migrations
 
                     b.Property<string>("Pronouncement")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -672,8 +669,8 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<string>("Opinion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -724,8 +721,8 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -810,8 +807,8 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<string>("Raises")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -893,8 +890,8 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -12,7 +12,7 @@
         {
             this.Cases = new HashSet<Case>();
         }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
 
         [Required]

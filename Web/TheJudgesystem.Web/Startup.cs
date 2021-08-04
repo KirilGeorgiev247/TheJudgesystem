@@ -19,6 +19,7 @@
     using TheJudgesystem.Data.Seeding;
     using TheJudgesystem.Services.Data;
     using TheJudgesystem.Services.Data.PeopleServices;
+    using TheJudgesystem.Services.Data.StuffServices;
     using TheJudgesystem.Services.Mapping;
     using TheJudgesystem.Services.Messaging;
     using TheJudgesystem.Web.ViewModels;
@@ -52,30 +53,37 @@
             //    .AddEntityFrameworkStores<ApplicationDbContext>()
             //    .AddDefaultTokenProviders();
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(
-                    "IsDefendant",
-                    policy => policy.RequireRole("Defendant"));
-                options.AddPolicy(
-                    "IsLawyer",
-                    policy => policy.RequireRole("Lawyer"));
-                options.AddPolicy(
-                    "IsWitness",
-                    policy => policy.RequireRole("Witness"));
-                options.AddPolicy(
-                    "IsJudge",
-                    policy => policy.RequireRole("Judge"));
-                options.AddPolicy(
-                    "IsMemberOfJury",
-                    policy => policy.RequireRole("JuryMember"));
-                options.AddPolicy(
-                    "IsProsecutor",
-                    policy => policy.RequireRole("Prosecutor"));
-                options.AddPolicy(
-                    "IsGuard",
-                    policy => policy.RequireRole("Guard"));
-            });
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy(
+            //        "IsDefendant",
+            //        policy => policy.RequireRole("Defendant"));
+            //});
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy(
+            //        "IsDefendant",
+            //        policy => policy.RequireRole("Defendant"));
+            //    options.AddPolicy(
+            //        "IsLawyer",
+            //        policy => policy.RequireRole("Lawyer"));
+            //    options.AddPolicy(
+            //        "IsWitness",
+            //        policy => policy.RequireRole("Witness"));
+            //    options.AddPolicy(
+            //        "IsJudge",
+            //        policy => policy.RequireRole("Judge"));
+            //    options.AddPolicy(
+            //        "IsMemberOfJury",
+            //        policy => policy.RequireRole("JuryMember"));
+            //    options.AddPolicy(
+            //        "IsProsecutor",
+            //        policy => policy.RequireRole("Prosecutor"));
+            //    options.AddPolicy(
+            //        "IsGuard",
+            //        policy => policy.RequireRole("Guard"));
+            //});
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -103,6 +111,7 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IRolesService, RolesService>();
+            services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IDefendantService, DefendantService>();
             services.AddTransient<IJudgesService, JudgesService>();
             services.AddTransient<IJuryMembersService, JuryMembersService>();
@@ -110,6 +119,7 @@
             services.AddTransient<IProsecutorsService, ProsecutorsService>();
             services.AddTransient<IGuardsService, GuardsService>();
             services.AddTransient<IWitnessesService, WitnessesService>();
+            services.AddTransient<ICasesService, CasesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

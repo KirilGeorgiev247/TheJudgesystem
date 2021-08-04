@@ -1,4 +1,6 @@
 ﻿@using TheJudgesystem.Common
+@using TheJudgesystem.Services.Data
+@inject IUsersService usersService
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +23,7 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
 
-                        @if (this.User.IsInRole("Defendant"))
+                        @if (this.usersService.IsInThisRole("Defendant", this.User).Result)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Defendant" asp-action="Lawyers">Lawyers</a>

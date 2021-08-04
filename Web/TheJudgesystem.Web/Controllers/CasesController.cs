@@ -33,11 +33,9 @@ namespace TheJudgesystem.Web.Controllers
 
             input.LawyerId = id;
 
-            await this.casesService.AddCase(input, this.User);
+            await this.casesService.AddCase(input, this.User, id);
 
-            // User becomes lawyer
-
-            return this.Redirect("/Home");
+            return this.Redirect($"/Defendant/HireLawyer/{id}");
         }
 
     }

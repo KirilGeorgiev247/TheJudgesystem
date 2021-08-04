@@ -7,7 +7,7 @@
 
     public class JuryMember : BaseDeletableModel<int>
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         public string FirstName { get; set; }

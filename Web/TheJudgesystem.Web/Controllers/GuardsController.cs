@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheJudgesystem.Web.Controllers
 {
-    [Authorize(Policy = "IsGuard")]
+    [Authorize(Roles = "Guard")]
     public class GuardsController : Controller
     {
     }

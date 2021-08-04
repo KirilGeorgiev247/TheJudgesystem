@@ -17,5 +17,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public Task HireLawyer(int id, ClaimsPrincipal user);
 
+        public Defendant GetDefendant(ClaimsPrincipal user);
+
+        public bool HasLawyer(ClaimsPrincipal user);
+
     }
 }
