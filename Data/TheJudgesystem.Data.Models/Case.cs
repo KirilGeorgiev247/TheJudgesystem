@@ -44,5 +44,12 @@
         public bool IsSolved { get; set; }
 
         public ICollection<Indication> Indications { get; set; }
+
+        public string LawyerDefence { get; set; }
+
+        public string ProsecutorDecision { get; set; }
+
+        public string JudgeDecision { get; set; }
+
     }
 }

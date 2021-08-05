@@ -15,15 +15,18 @@
         private readonly IUsersService usersService;
         private readonly IDeletableEntityRepository<Lawyer> lawyersRepository;
         private readonly IDeletableEntityRepository<Defendant> defendantsRepository;
+        private readonly IDeletableEntityRepository<Case> casesRepository;
 
         public DefendantService(
             IUsersService usersService,
             IDeletableEntityRepository<Lawyer> lawyersRepository,
-            IDeletableEntityRepository<Defendant> defendantsRepository)
+            IDeletableEntityRepository<Defendant> defendantsRepository,
+            IDeletableEntityRepository<Case> casesRepository)
         {
             this.usersService = usersService;
             this.lawyersRepository = lawyersRepository;
             this.defendantsRepository = defendantsRepository;
+            this.casesRepository = casesRepository;
         }
 
         public int GetCount()
@@ -35,6 +38,18 @@
         {
             var userId = this.usersService.GetApplicationUserId(user);
             return this.defendantsRepository.All().FirstOrDefault(x => x.UserId == userId);
+        }
+
+        public InfoViewModel GetInfo(ClaimsPrincipal user)
+        {
+            var info = new InfoViewModel
+            {
+                Lawyer = this.GetMyLawyer(user),
+                Case = this.GetMyCase(user),
+                ImageUrl = this.GetMyImage(user).ImageUrl,
+            };
+
+            return info;
         }
 
         public IEnumerable<LawyerInList> GetLawyers(int page, int itemsPerPage = 6)
@@ -65,11 +80,35 @@
                 .ToList();
         }
 
+        public MyCaseViewModel GetMyCase(ClaimsPrincipal user)
+        {
+            return this.casesRepository.All()
+                .Where(x => x.Id == this.GetDefendant(user).CaseId)
+                .To<MyCaseViewModel>()
+                .FirstOrDefault();
+        }
+
+        public MyLawyerViewModel GetMyLawyer(ClaimsPrincipal user)
+        {
+            return this.lawyersRepository.All()
+                .Where(x => x.Id == this.GetDefendant(user).LawyerId)
+                .To<MyLawyerViewModel>()
+                .FirstOrDefault();
+        }
+
+        public MyImageViewModel GetMyImage(ClaimsPrincipal user)
+        {
+            return this.defendantsRepository.All()
+                    .Where(x => x.Id == this.GetDefendant(user).Id)
+                    .To<MyImageViewModel>()
+                    .FirstOrDefault();
+        }
+
         public bool HasLawyer(ClaimsPrincipal user)
         {
             var defendant = this.GetDefendant(user);
 
-            if (defendant.Lawyer != null)
+            if (defendant.LawyerId != null)
             {
                 return true;
             }
@@ -84,9 +123,11 @@
 
             defendant.Lawyer = lawyer;
             defendant.LawyerId = lawyer.Id;
-            lawyer.Clients.Add(defendant);
 
             await this.defendantsRepository.SaveChangesAsync();
+
+            lawyer.Clients.Add(defendant);
+
             await this.lawyersRepository.SaveChangesAsync();
         }
     }

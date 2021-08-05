@@ -29,6 +29,18 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Defendant" asp-action="Lawyers">Lawyers</a>
                             </li>
                         }
+                        else if (this.usersService.IsInThisRole("Lawyer", this.User).Result)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Lawyers" asp-action="Cases">Cases</a>
+                            </li>
+                        }
+                        else if (this.usersService.IsInThisRole("Prosecutor", this.User).Result)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Prosecutors" asp-action="Cases">Cases</a>
+                            </li>
+                        }
                         else
                         {
                             <li class="nav-item">
@@ -36,14 +48,14 @@
                             </li>
                         }
                         @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>*@
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>*@
                     </ul>
                 </div>
             </div>

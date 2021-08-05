@@ -15,11 +15,17 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public int GetCount();
 
-        public Task HireLawyer(int id, ClaimsPrincipal user);
-
         public Defendant GetDefendant(ClaimsPrincipal user);
 
         public bool HasLawyer(ClaimsPrincipal user);
+
+        public MyLawyerViewModel GetMyLawyer(ClaimsPrincipal user);
+
+        public MyCaseViewModel GetMyCase(ClaimsPrincipal user);
+
+        public InfoViewModel GetInfo(ClaimsPrincipal user);
+
+        public MyImageViewModel GetMyImage(ClaimsPrincipal user);
 
     }
 }

@@ -328,17 +328,26 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<bool>("IsSolved")
                         .HasColumnType("bit");
 
+                    b.Property<string>("JudgeDecision")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("JudgeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("JuryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("LawyerDefence")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("LawyerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ProsecutorDecision")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ProsecutorId")
                         .HasColumnType("int");

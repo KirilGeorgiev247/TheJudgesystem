@@ -23,6 +23,14 @@
             {
                 return this.Redirect("/Defendant/Lawyers");
             }
+            else if (this.usersService.IsInThisRole("Lawyer", this.User).Result)
+            {
+                return this.Redirect("/Lawyers/Cases");
+            }
+            else if (this.usersService.IsInThisRole("Prosecutor", this.User).Result)
+            {
+                return this.Redirect("/Prosecutors/Cases");
+            }
 
             return this.View();
         }

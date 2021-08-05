@@ -48,6 +48,16 @@ namespace TheJudgesystem.Services.Data.StuffServices
 
             await this.casesRepository.AddAsync(realCase);
             await this.casesRepository.SaveChangesAsync();
+
+            lawyer.Cases.Add(realCase);
+            lawyer.Clients.Add(defendant);
+            defendant.Case = realCase;
+            defendant.CaseId = realCase.Id;
+            defendant.LawyerId = lawyer.Id;
+            defendant.Lawyer = lawyer;
+
+            await this.defendantsRepository.SaveChangesAsync();
+            await this.lawyersRepository.SaveChangesAsync();
         }
     }
 }

@@ -24,7 +24,7 @@
         {
             if (this.defendantService.HasLawyer(this.User))
             {
-                this.Redirect("/Defendant/Info");
+                return this.Redirect("/Defendant/Info");
             }
 
             var itemsCount = 6;
@@ -34,18 +34,18 @@
                 ItemsPerPage = itemsCount,
                 Lawyers = this.defendantService.GetLawyers(id, itemsCount),
                 PageNumber = id,
-                LawyersCount = this.defendantService.GetCount(),
+                EntityCount = this.defendantService.GetCount(),
             };
 
             return this.View(lawyers);
         }
 
-        public async Task<IActionResult> HireLawyer(int id)
+        [HttpGet]
+        public IActionResult Info()
         {
-            await this.defendantService.HireLawyer(id, this.User);
+            var infoModel = this.defendantService.GetInfo(this.User);
 
-            return this.Redirect("/Defendant/Lawyers");
+            return this.View(infoModel);
         }
-
     }
 }
