@@ -31,6 +31,10 @@
             {
                 return this.Redirect("/Prosecutors/Cases");
             }
+            else if (this.usersService.IsInThisRole("Witness", this.User).Result)
+            {
+                return this.Redirect("/Witnesses/Cases");
+            }
 
             return this.View();
         }

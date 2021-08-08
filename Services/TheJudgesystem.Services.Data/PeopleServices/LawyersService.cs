@@ -34,6 +34,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         {
             return this.casesRepository.AllAsNoTracking()
                 .Where(x => x.LawyerDefence == null)
+                .Where(x => x.IsSolved == false)
                 .Count();
         }
 

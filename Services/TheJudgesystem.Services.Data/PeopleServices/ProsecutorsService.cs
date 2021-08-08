@@ -35,6 +35,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         {
             return this.casesRepository.AllAsNoTracking()
                 .Where(x => x.LawyerDefence != null)
+                .Where(x => x.IsSolved == false)
                 .Count();
         }
 
@@ -50,17 +51,19 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                 .OrderByDescending(x => x.Id)
                 .Where(x => x.LawyerDefence != null)
                 .Where(x => x.IsSolved == false)
+                .Where(x => x.ProsecutorDecision == null)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<CaseInList>()
                 .ToList();
         }
 
-        public async Task DecideForGuilty(DecisionInputModel input, int caseId)
+        public async Task DecideForGuilty(DecisionInputModel input, int caseId, ClaimsPrincipal user)
         {
             var casee = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
             var defendant = this.defendantsRepository.All().FirstOrDefault(x => x.CaseId == caseId);
 
+            casee.ProsecutorId = this.GetProsecutor(user).Id;
             casee.ProsecutorDecision = input.ProsecutorDecision;
             defendant.IsGuilty = true;
 
@@ -68,11 +71,11 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             await this.casesRepository.SaveChangesAsync();
         }
 
-        public async Task DecideForNotGuilty(DecisionInputModel input, int caseId)
+        public async Task DecideForNotGuilty(DecisionInputModel input, int caseId, ClaimsPrincipal user)
         {
             var casee = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
-            var defendant = this.defendantsRepository.All().FirstOrDefault(x => x.CaseId == caseId);
 
+            casee.ProsecutorId = this.GetProsecutor(user).Id;
             casee.ProsecutorDecision = input.ProsecutorDecision;
             casee.IsSolved = true;
 
@@ -80,13 +83,13 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             await this.casesRepository.SaveChangesAsync();
         }
 
-        public async Task DecideForFee(DecisionInputModel input, int caseId)
+        public async Task DecideForFee(DecisionInputModel input, int caseId, ClaimsPrincipal user)
         {
             // Add fee to defendant
 
             var casee = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
-            var defendant = this.defendantsRepository.All().FirstOrDefault(x => x.CaseId == caseId);
 
+            casee.ProsecutorId = this.GetProsecutor(user).Id;
             casee.ProsecutorDecision = input.ProsecutorDecision;
             casee.IsSolved = true;
 

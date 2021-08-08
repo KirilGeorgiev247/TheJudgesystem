@@ -16,10 +16,10 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public IEnumerable<CaseInList> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4);
 
-        public Task DecideForGuilty(DecisionInputModel input, int caseId);
+        public Task DecideForGuilty(DecisionInputModel input, int caseId, ClaimsPrincipal user);
 
-        public Task DecideForNotGuilty(DecisionInputModel input, int caseId);
+        public Task DecideForNotGuilty(DecisionInputModel input, int caseId, ClaimsPrincipal user);
 
-        public Task DecideForFee(DecisionInputModel input, int caseId);
+        public Task DecideForFee(DecisionInputModel input, int caseId, ClaimsPrincipal user);
     }
 }

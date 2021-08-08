@@ -43,7 +43,7 @@ namespace TheJudgesystem.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Decision(DecisionInputModel input, int id, string guilty)
+        public async Task<IActionResult> Decision(DecisionInputModel input, int id, string button)
         {
 
             if (!this.ModelState.IsValid)
@@ -51,17 +51,17 @@ namespace TheJudgesystem.Web.Controllers
                 return this.View();
             }
 
-            if (guilty == "yes")
+            if (button == "guilty")
             {
-                await this.prosecutorsService.DecideForGuilty(input, id);
+                await this.prosecutorsService.DecideForGuilty(input, id, this.User);
             }
-            else if (guilty == "no")
+            else if (button == "botGuilty")
             {
-                await this.prosecutorsService.DecideForNotGuilty(input, id);
+                await this.prosecutorsService.DecideForNotGuilty(input, id, this.User);
             }
-            else
+            else if (button == "fee")
             {
-                await this.prosecutorsService.DecideForFee(input, id);
+                await this.prosecutorsService.DecideForFee(input, id, this.User);
             }
 
             return this.Redirect("/Prosecutors/Cases");
