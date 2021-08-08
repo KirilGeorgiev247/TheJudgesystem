@@ -1,0 +1,190 @@
+﻿@using TheJudgesystem.Web.ViewModels.Defendants
+@model InfoViewModel
+
+
+<h1 class="text-center">
+    Check what is going on with your case!
+</h1>
+
+<hr />
+
+<div class="row justify-content-center">
+
+    <div class="card rounded float-left" style="width: 18rem;">
+        <img class="card-img-top img-fluid" src="@Model.Lawyer.ImageUrl" alt="Card image cap" style="width:18rem">
+        <div class="card-body">
+            <h5 class="card-title text-center" data-toggle="tooltip" data-placement="bottom">
+                <span class="text-center">@Model.Lawyer.FirstName</span>
+                <span class="text-center">@Model.Lawyer.LastName</span>
+                @if (@Model.Lawyer.Rating != 0)
+                {
+                    <span class="text-center">@Model.Lawyer.Rating</span> }
+                else
+                {
+                    <span class="text-center">Be the first one to rate!</span>
+                }
+                <div>
+                    <label>Salary:</label>
+                    <span class="text-center">@Model.Lawyer.Salary$</span>
+                </div>
+            </h5>
+            <div class="form-group">
+
+                <div id="CvContainer" style="display:none">
+                    <div class="text-center">
+                        <label class="text-black-50">Age:</label>
+                        <span class="text-center">@Model.Lawyer.CV.Age</span>
+                    </div>
+                    <div class="text-center">
+                        <label class="text-black-50">School:</label>
+                        <span class="text-center">@Model.Lawyer.CV.School</span>
+                    </div>
+                    <div class="text-center">
+                        <label class="text-black-50">Birthtown:</label>
+                        <span class="text-center">@Model.Lawyer.CV.BirthTown</span>
+                    </div>
+                    <div class="text-center">
+                        <label class="text-black-50">University:</label>
+                        <span class="text-center">@Model.Lawyer.CV.University</span>
+                    </div>
+                    <div class="text-center">
+                        <label class="text-black-50">Achivements:</label>
+                        <span class="text-center">@Model.Lawyer.CV.Achievements</span>
+                    </div>
+                </div>
+
+                <a id="CvButton" class="btn btn-light" onclick="ShowCv()">Show CV</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card rounded float-lg-right" style="width: 18rem;">
+            <img src="@Model.ImageUrl" class="card-img-top img-fluid" alt="Card image cap" style="width:18rem">
+        <div class="card-body">
+            <h5 class="card-title text-center">Case information</h5>
+            <div class="form-group">
+
+                <div id="CaseInfoContainer" style="display:none">
+                    <div class="text-center">
+                        <label class="text-black-50">Lawyer:</label>
+                        @if (Model.Case.LawyerId != null)
+                        {
+                            <span class="text-center">@Model.Case.LawyerFirstName @Model.Case.LawyerLastName</span>
+                        }
+                        else
+                        {
+                            <span class="text-center">Still not given!</span>
+                        }
+                    </div>
+                    <div class="text-center">
+                        <label class="text-black-50">Prosecutor:</label>
+                        @if (Model.Case.ProsecutorId != null)
+                        {
+                            <span class="text-center">@Model.Case.ProsecutorFirstName @Model.Case.ProsecutorLastName</span>
+                        }
+                        else
+                        {
+                            <span class="text-center">Still not given!</span>
+                        }
+                    </div>
+                    <div class="text-center">
+                        <label class="text-black-50">Description:</label>
+                        <p class="text-center">@Model.Case.Description</p>
+                    </div>
+                    <div class="text-center">
+                        <label class="text-black-50">Date:</label>
+                        @if (Model.Case.Date != null)
+                        {
+                            <span class="text-center">@Model.Case.Date?.ToString("dd-mmm-yyyy hh:mm")</span>
+                        }
+                        else
+                        {
+                            <span class="text-center">Still not given!</span>
+                        }
+                    </div>
+                    <div class="text-center">
+                        <label class="text-black-50">Case process:</label>
+                        @if (Model.Case.IsSolved)
+                        {
+                            <span class="text-center">The case is solved!</span>
+                        }
+                        else
+                        {
+                            <span class="text-center">The case is still in process!</span>
+                        }
+                    </div>
+
+                    @if (Model.Case.Indications.Count() > 0)
+                    {
+                        <div class="text-center">
+                            <label class="text-black-50">Indications:</label>
+
+                            @foreach (var indication in Model.Case.Indications)
+                            {
+                                @if (indication.WitnessId != null)
+                                {
+                                    <span class="text-center">@indication.WitnessFirstName @indication.WitnessLastName</span>
+                                    <p class="text-center">
+                                        @indication.Description
+                                    </p>
+                                }
+                                else
+                                {
+                                    <span class="text-center">WitnessId is null!</span>
+                                }
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center">
+                            <label class="text-black-50">Indications:</label>
+                            <span class="text-center">Still not given!</span>
+                        </div>
+                    }
+
+                </div>
+
+                <a id="CaseButton" class="btn btn-light" onclick="ShowMore()">Show more</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+@section Scripts
+{
+    <script>
+        function ShowCv() {
+            var element = document.getElementById("CvContainer");
+            var button = document.getElementById("CvButton");
+            if (element.style.display === "none") {
+                element.style.display = "block";
+                button.innerHTML = "Hide CV";
+            } else {
+                element.style.display = "none";
+                button.innerHTML = "Show CV";
+            }
+        }
+    </script>
+
+    <script>
+        function ShowMore() {
+            var element = document.getElementById("CaseInfoContainer");
+            var button = document.getElementById("CaseButton");
+            if (element.style.display === "none") {
+                element.style.display = "block";
+                button.innerHTML = "Hide info";
+            } else {
+                element.style.display = "none";
+                button.innerHTML = "Show more";
+            }
+        }
+    </script>
+}

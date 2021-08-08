@@ -1,0 +1,22 @@
+﻿@using TheJudgesystem.Web.ViewModels.Prosecutors
+@model DecisionInputModel
+
+<form method="post" class="col-md-6 offset-3">
+    <div asp-validation-summary="All"></div>
+
+    <div id="divContainer" style="display:block">
+        <div asp-validation-summary="ModelOnly" class="form-group"></div>
+        <div>
+            <label asp-for="ProsecutorDecision">Describe your decision motives: </label>
+            <textarea asp-for="ProsecutorDecision" class="form-control" rows="10"> </textarea> <br />
+            <span asp-validation-for="ProsecutorDecision" class="alert-danger"></span>
+        </div>
+        <div class="col-md-6 offset-3">
+            <button type="submit" name="button" id="guilty" value="guilty" class="btn btn-danger" asp-action="Decision">Guilty</button>
+            <button type="submit" name="button" id="notGuilty" value="notGuilty" class="btn btn-success" asp-action="Decision">Not guilty</button>
+            <button type="submit" name="button" id="fee" value="fee" class="btn btn-light" asp-action="Decision">Fee</button>
+        </div>
+    </div>
+</form>
+
+

@@ -1,0 +1,48 @@
+﻿@using TheJudgesystem.Web.ViewModels.Witnesses
+@model WitnessesListViewModel
+<h1 class="text-center mt-2">Cases</h1>
+<hr />
+<div class="row mt-auto mb-auto">
+    @foreach (var casee in this.Model.Cases)
+    {
+<div class="col-6 col-lg-3 text-wrap">
+    <div class="w-75 p-3" style="background-color: #eee;">
+        <img src="@casee.DefendantImageUrl"
+             class="img-fluid">
+    </div>
+    <div class="align-content-lg-center">
+        <h5 class="card-title text-center" data-toggle="tooltip" data-placement="bottom">
+            <div class="text-left text-wrap">
+                <label>Defendant:</label>
+                <span>@casee.DefendantFirstName @casee.DefendantLastName</span>
+            </div>
+
+            <div class="text-left text-wrap">
+                <label>Charges:</label>
+                <span>@casee.DefendantCharges</span>
+            </div>
+
+            <div class="text-left text-wrap">
+                <label>Description:</label>
+                <span>@casee.Description </span>
+            </div>
+
+            <div class="text-left text-wrap">
+                <label>Lawyer defence:</label>
+                <span>@casee.LawyerDefence </span>
+            </div>
+
+            <div class="text-left text-wrap">
+                <label>Prosecutor decision:</label>
+                <span>@casee.ProsecutorDecision </span>
+            </div>
+
+        </h5>
+    </div>
+
+    <a asp-controller="Witnesses" asp-action="Indications" asp-route-id="@casee.Id" class="btn btn-block btn-primary">Tell your indications</a>
+</div>}
+</div>
+
+
+<partial name="_PagingPartial" model="@Model" />
