@@ -22,6 +22,7 @@
     using TheJudgesystem.Services.Data.StuffServices;
     using TheJudgesystem.Services.Mapping;
     using TheJudgesystem.Services.Messaging;
+    using TheJudgesystem.Web.Extensions;
     using TheJudgesystem.Web.ViewModels;
 
     public class Startup
@@ -39,51 +40,14 @@
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                //    options =>
-                //{
-                //    options.SignIn.RequireConfirmedAccount = false;
-                //})
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                // (IdentityOptionsProvider.GetIdentityOptions)
+                options.SignIn.RequireConfirmedAccount = false;
+            })
                 .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            //services.AddIdentity<ApplicationUser, ApplicationRole>()
-            //    .AddDefaultUI()
-            //    .AddRoles<ApplicationRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
-
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy(
-            //        "IsDefendant",
-            //        policy => policy.RequireRole("Defendant"));
-            //});
-
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy(
-            //        "IsDefendant",
-            //        policy => policy.RequireRole("Defendant"));
-            //    options.AddPolicy(
-            //        "IsLawyer",
-            //        policy => policy.RequireRole("Lawyer"));
-            //    options.AddPolicy(
-            //        "IsWitness",
-            //        policy => policy.RequireRole("Witness"));
-            //    options.AddPolicy(
-            //        "IsJudge",
-            //        policy => policy.RequireRole("Judge"));
-            //    options.AddPolicy(
-            //        "IsMemberOfJury",
-            //        policy => policy.RequireRole("JuryMember"));
-            //    options.AddPolicy(
-            //        "IsProsecutor",
-            //        policy => policy.RequireRole("Prosecutor"));
-            //    options.AddPolicy(
-            //        "IsGuard",
-            //        policy => policy.RequireRole("Guard"));
-            //});
+            // (AddDefaultTokenProviders)
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -102,24 +66,7 @@
 
             services.AddSingleton(this.configuration);
 
-            // Data repositories
-            services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddScoped<IDbQueryRunner, DbQueryRunner>();
-
-            // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
-            services.AddTransient<IRolesService, RolesService>();
-            services.AddTransient<IUsersService, UsersService>();
-            services.AddTransient<IDefendantService, DefendantService>();
-            services.AddTransient<IJudgesService, JudgesService>();
-            services.AddTransient<IJuryMembersService, JuryMembersService>();
-            services.AddTransient<ILawyersService, LawyersService>();
-            services.AddTransient<IProsecutorsService, ProsecutorsService>();
-            services.AddTransient<IGuardsService, GuardsService>();
-            services.AddTransient<IWitnessesService, WitnessesService>();
-            services.AddTransient<ICasesService, CasesService>();
+            StartUpExtensions.RegisterDependecies(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
