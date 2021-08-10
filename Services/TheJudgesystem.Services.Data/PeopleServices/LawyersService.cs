@@ -33,8 +33,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         public int GetCasesCount()
         {
             return this.casesRepository.AllAsNoTracking()
-                .Where(x => x.LawyerDefence == null)
-                .Where(x => x.IsSolved == false)
+                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence) && !x.IsSolved)
                 .Count();
         }
 
@@ -48,9 +47,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         {
             return this.casesRepository.All()
                 .OrderByDescending(x => x.Id)
-                .Where(x => x.LawyerId == this.GetLawyer(user).Id)
-                .Where(x => x.LawyerDefence == null)
-                .Where(x => x.IsSolved == false)
+                .Where(x => x.LawyerId == this.GetLawyer(user).Id
+                        && string.IsNullOrWhiteSpace(x.LawyerDefence)
+                        && !x.IsSolved)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<CaseInList>()
@@ -60,9 +59,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         public async Task AddDefence(DefenceInputModel input, int caseId)
         {
 
-            var casee = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
+            var @case = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
 
-            casee.LawyerDefence = input.LawyerDefence;
+            @case.LawyerDefence = input.LawyerDefence;
 
             await this.casesRepository.SaveChangesAsync();
 
