@@ -98,8 +98,9 @@
 
         public MyImageViewModel GetMyImage(ClaimsPrincipal user)
         {
+            var userId = this.usersService.GetApplicationUserId(user);
             return this.defendantsRepository.All()
-                    .Where(x => x.Id == this.GetDefendant(user).Id)
+                    .Where(x => x.UserId == userId)
                     .To<MyImageViewModel>()
                     .FirstOrDefault();
         }
@@ -121,14 +122,9 @@
             var defendant = this.GetDefendant(user);
             var lawyer = this.lawyersRepository.All().FirstOrDefault(x => x.Id == id);
 
-            defendant.Lawyer = lawyer;
             defendant.LawyerId = lawyer.Id;
 
             await this.defendantsRepository.SaveChangesAsync();
-
-            lawyer.Clients.Add(defendant);
-
-            await this.lawyersRepository.SaveChangesAsync();
         }
     }
 }
