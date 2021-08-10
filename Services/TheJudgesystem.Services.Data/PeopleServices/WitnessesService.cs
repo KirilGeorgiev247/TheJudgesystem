@@ -30,9 +30,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         public int GetCasesCount()
         {
             return this.casesRepository.AllAsNoTracking()
-                .Where(x => x.LawyerDefence != null)
-                .Where(x => x.ProsecutorDecision != null)
-                .Where(x => x.IsSolved == false)
+                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
+                        && string.IsNullOrWhiteSpace(x.ProsecutorDecision)
+                        && !x.IsSolved)
                 .Count();
         }
 
@@ -46,9 +46,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         {
             return this.casesRepository.All()
                 .OrderByDescending(x => x.Id)
-                .Where(x => x.LawyerDefence != null)
-                .Where(x => x.ProsecutorDecision != null)
-                .Where(x => x.IsSolved == false)
+                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
+                        && string.IsNullOrWhiteSpace(x.ProsecutorDecision)
+                        && !x.IsSolved)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<CaseInList>()

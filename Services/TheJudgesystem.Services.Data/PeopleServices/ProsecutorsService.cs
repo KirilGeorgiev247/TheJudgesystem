@@ -34,8 +34,8 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         public int GetCasesCount()
         {
             return this.casesRepository.AllAsNoTracking()
-                .Where(x => x.LawyerDefence != null)
-                .Where(x => x.IsSolved == false)
+                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
+                        && !x.IsSolved)
                 .Count();
         }
 
@@ -49,9 +49,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         {
             return this.casesRepository.All()
                 .OrderByDescending(x => x.Id)
-                .Where(x => x.LawyerDefence != null)
-                .Where(x => x.IsSolved == false)
-                .Where(x => x.ProsecutorDecision == null)
+                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
+                        && string.IsNullOrWhiteSpace(x.ProsecutorDecision)
+                        && !x.IsSolved)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<CaseInList>()
@@ -60,26 +60,24 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public async Task DecideForGuilty(DecisionInputModel input, int caseId, ClaimsPrincipal user)
         {
-            var casee = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
+            var @case = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
             var defendant = this.defendantsRepository.All().FirstOrDefault(x => x.CaseId == caseId);
 
-            casee.ProsecutorId = this.GetProsecutor(user).Id;
-            casee.ProsecutorDecision = input.ProsecutorDecision;
+            @case.ProsecutorId = this.GetProsecutor(user).Id;
+            @case.ProsecutorDecision = input.ProsecutorDecision;
             defendant.IsGuilty = true;
 
-            await this.defendantsRepository.SaveChangesAsync();
             await this.casesRepository.SaveChangesAsync();
         }
 
         public async Task DecideForNotGuilty(DecisionInputModel input, int caseId, ClaimsPrincipal user)
         {
-            var casee = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
+            var @case = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
 
-            casee.ProsecutorId = this.GetProsecutor(user).Id;
-            casee.ProsecutorDecision = input.ProsecutorDecision;
-            casee.IsSolved = true;
+            @case.ProsecutorId = this.GetProsecutor(user).Id;
+            @case.ProsecutorDecision = input.ProsecutorDecision;
+            @case.IsSolved = true;
 
-            await this.defendantsRepository.SaveChangesAsync();
             await this.casesRepository.SaveChangesAsync();
         }
 
@@ -87,13 +85,12 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         {
             // Add fee to defendant
 
-            var casee = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
+            var @case = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
 
-            casee.ProsecutorId = this.GetProsecutor(user).Id;
-            casee.ProsecutorDecision = input.ProsecutorDecision;
-            casee.IsSolved = true;
+            @case.ProsecutorId = this.GetProsecutor(user).Id;
+            @case.ProsecutorDecision = input.ProsecutorDecision;
+            @case.IsSolved = true;
 
-            await this.defendantsRepository.SaveChangesAsync();
             await this.casesRepository.SaveChangesAsync();
         }
     }
