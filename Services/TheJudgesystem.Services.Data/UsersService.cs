@@ -27,7 +27,7 @@ namespace TheJudgesystem.Services.Data
             return user.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
-        public async Task GetRole(string role, ClaimsPrincipal user)
+        public async Task SetRole(string role, ClaimsPrincipal user)
         {
             if (this.roleManager.Roles.Any(x => x.Name == role))
             {

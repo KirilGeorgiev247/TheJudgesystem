@@ -43,7 +43,7 @@
 
             await this.rolesService.AddLawyer(input, this.User);
 
-            await this.usersService.GetRole("Lawyer", this.User);
+            await this.usersService.SetRole("Lawyer", this.User);
 
             await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 
@@ -70,7 +70,7 @@
 
             await this.rolesService.AddJudge(input, this.User);
 
-            await this.usersService.GetRole("Judge", this.User);
+            await this.usersService.SetRole("Judge", this.User);
 
             await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 
@@ -97,7 +97,7 @@
 
             await this.rolesService.AddWitness(input, this.User);
 
-            await this.usersService.GetRole("Witness", this.User);
+            await this.usersService.SetRole("Witness", this.User);
 
             await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 
@@ -124,7 +124,7 @@
 
             await this.rolesService.AddProsecutor(input, this.User);
 
-            await this.usersService.GetRole("Prosecutor", this.User);
+            await this.usersService.SetRole("Prosecutor", this.User);
 
             await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 
@@ -151,7 +151,7 @@
 
             await this.rolesService.AddDefendant(input, this.User);
 
-            await this.usersService.GetRole("Defendant", this.User);
+            await this.usersService.SetRole("Defendant", this.User);
 
             await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 
@@ -178,7 +178,7 @@
 
             await this.rolesService.AddGuard(input, this.User);
 
-            await this.usersService.GetRole("Guard", this.User);
+            await this.usersService.SetRole("Guard", this.User);
 
             await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 
@@ -205,7 +205,7 @@
 
             await this.rolesService.AddJuryMember(input, this.User);
 
-            await this.usersService.GetRole("JuryMember", this.User);
+            await this.usersService.SetRole("JuryMember", this.User);
 
             await this.signInManager.RefreshSignInAsync(this.usersService.GetUser(this.User).Result);
 

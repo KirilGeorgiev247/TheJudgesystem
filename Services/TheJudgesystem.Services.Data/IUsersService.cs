@@ -9,7 +9,7 @@ namespace TheJudgesystem.Services.Data
 {
     public interface IUsersService
     {
-        public Task GetRole(string role, ClaimsPrincipal user);
+        public Task SetRole(string role, ClaimsPrincipal user);
 
         public Task<ApplicationUser> GetUser(ClaimsPrincipal user);
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TheJudgesystem.Common;
 using TheJudgesystem.Services.Data.PeopleServices;
 using TheJudgesystem.Web.ViewModels.Prosecutors;
 
@@ -51,17 +52,19 @@ namespace TheJudgesystem.Web.Controllers
                 return this.View();
             }
 
-            if (button == "guilty")
+            switch (button)
             {
-                await this.prosecutorsService.DecideForGuilty(input, id, this.User);
-            }
-            else if (button == "botGuilty")
-            {
-                await this.prosecutorsService.DecideForNotGuilty(input, id, this.User);
-            }
-            else if (button == "fee")
-            {
-                await this.prosecutorsService.DecideForFee(input, id, this.User);
+                case GlobalConstants.Guilty:
+                    await this.prosecutorsService.DecideForGuilty(input, id, this.User);
+                    break;
+                case GlobalConstants.NotGuilty:
+                    await this.prosecutorsService.DecideForNotGuilty(input, id, this.User);
+                    break;
+                case GlobalConstants.Fee:
+                    await this.prosecutorsService.DecideForFee(input, id, this.User);
+                    break;
+                default:
+                    break;
             }
 
             return this.Redirect("/Prosecutors/Cases");

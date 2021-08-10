@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
+    using TheJudgesystem.Common;
     using TheJudgesystem.Data.Common.Repositories;
     using TheJudgesystem.Data.Models;
     using TheJudgesystem.Web.ViewModels.Roles;
@@ -79,7 +80,7 @@
                 CV = realCV,
             };
 
-            await this.usersService.GetRole("Lawyer", user);
+            await this.usersService.SetRole(GlobalConstants.LawyerRole, user);
 
             await this.lawyersRepository.AddAsync(realLawyer);
             await this.lawyersRepository.SaveChangesAsync();
@@ -121,7 +122,7 @@
                 CV = realCV,
             };
 
-            await this.usersService.GetRole("Judge", user);
+            await this.usersService.SetRole(GlobalConstants.JudgeRole, user);
 
             await this.judgesRepository.AddAsync(realJudge);
             await this.judgesRepository.SaveChangesAsync();
@@ -138,7 +139,7 @@
                 ImageUrl = witness.ImageUrl,
             };
 
-            await this.usersService.GetRole("Witness", user);
+            await this.usersService.SetRole(GlobalConstants.WitnessRole, user);
 
             await this.witnessesRepository.AddAsync(realWitness);
             await this.witnessesRepository.SaveChangesAsync();
@@ -156,7 +157,7 @@
             };
 
 
-            await this.usersService.GetRole("Prosecutor", user);
+            await this.usersService.SetRole(GlobalConstants.ProsecutorRole, user);
 
             await this.prosecutorsRepository.AddAsync(realProsecutor);
             await this.prosecutorsRepository.SaveChangesAsync();
@@ -176,6 +177,8 @@
                 IsGuilty = false,
             };
 
+            await this.usersService.SetRole(GlobalConstants.DefendantRole, user);
+
             await this.defendantsRepository.AddAsync(realDefendant);
             await this.defendantsRepository.SaveChangesAsync();
 
@@ -192,7 +195,7 @@
                 Salary = guard.Salary,
             };
 
-            await this.usersService.GetRole("Guard", user);
+            await this.usersService.SetRole(GlobalConstants.GuardRole, user);
 
             await this.guardsRepository.AddAsync(realGuard);
             await this.guardsRepository.SaveChangesAsync();
@@ -208,7 +211,7 @@
                 LastName = juryMember.LastName,
             };
 
-            await this.usersService.GetRole("JuryMember", user);
+            await this.usersService.SetRole(GlobalConstants.JuryMemberRole, user);
 
             await this.juryMembersRepository.AddAsync(realJuryMember);
             await this.juryMembersRepository.SaveChangesAsync();
