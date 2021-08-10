@@ -68,5 +68,16 @@ namespace TheJudgesystem.Services.Data
             return result;
         }
 
+        public string GetApplicaionUserRole(ClaimsPrincipal user)
+        {
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            return user.FindFirst(ClaimTypes.Role).Value;
+
+        }
     }
 }

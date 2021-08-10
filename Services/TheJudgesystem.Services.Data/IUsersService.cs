@@ -15,6 +15,8 @@ namespace TheJudgesystem.Services.Data
 
         public string GetApplicationUserId(ClaimsPrincipal user);
 
+        public string GetApplicaionUserRole(ClaimsPrincipal user);
+
         public Task<bool> IsInThisRole(string role, ClaimsPrincipal user);
     }
 }

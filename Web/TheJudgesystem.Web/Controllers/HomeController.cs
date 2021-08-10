@@ -4,6 +4,7 @@
     using System.Security.Claims;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using TheJudgesystem.Common;
     using TheJudgesystem.Services.Data;
     using TheJudgesystem.Web.ViewModels;
 
@@ -19,51 +20,19 @@
 
         public IActionResult Index()
         {
-            if (this.usersService.IsInThisRole("Defendant", this.User).Result)
+            return this.usersService.GetApplicaionUserRole(this.User) switch
             {
-                return this.Redirect("/Defendant/Lawyers");
-            }
-            else if (this.usersService.IsInThisRole("Lawyer", this.User).Result)
-            {
-                return this.Redirect("/Lawyers/Cases");
-            }
-            else if (this.usersService.IsInThisRole("Prosecutor", this.User).Result)
-            {
-                return this.Redirect("/Prosecutors/Cases");
-            }
-            else if (this.usersService.IsInThisRole("Witness", this.User).Result)
-            {
-                return this.Redirect("/Witnesses/Cases");
-            }
-
-            return this.View();
+                GlobalConstants.DefendantRole => this.Redirect("/Defendant/Lawyers"),
+                GlobalConstants.LawyerRole => this.Redirect("/Lawyers/Cases"),
+                GlobalConstants.ProsecutorRole => this.Redirect("/Prosecutors/Cases"),
+                GlobalConstants.WitnessRole => this.Redirect("/Witnesses/Cases"),
+                _ => this.View(),
+            };
         }
 
         public IActionResult Privacy()
         {
             return this.View();
-        }
-
-        [Authorize]
-        public IActionResult Role()
-        {
-            if (this.User.IsInRole("Defendant"))
-            {
-                return this.Redirect("/Defendant/Lawyers");
-            }
-
-            return this.View();
-        }
-
-        public IActionResult Test()
-        {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var obj = new
-            {
-                UserId = userId,
-            };
-
-            return this.Json(obj);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
