@@ -60,6 +60,21 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             return result;
         }
 
+        public async Task AddIndication(IndicationInputModel input, int caseId, ClaimsPrincipal user)
+        {
+            var @case = await this.casesRepository.All().FirstOrDefaultAsync(x => x.Id == caseId);
+            var witness = await this.GetWitness(user);
 
+            var realIndication = new Indication
+            {
+                Description = input.WitnessIndications,
+                WitnessId = witness.Id,
+                CaseId = @case.Id,
+            };
+
+            @case.Indications.Add(realIndication);
+
+            await this.casesRepository.SaveChangesAsync();
+        }
     }
 }

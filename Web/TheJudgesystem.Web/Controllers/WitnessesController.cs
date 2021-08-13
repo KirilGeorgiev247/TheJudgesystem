@@ -52,7 +52,7 @@ namespace TheJudgesystem.Web.Controllers
                 return this.View();
             }
 
-            await this.witnessesService.AddIndication(input, id);
+            await this.witnessesService.AddIndication(input, id, this.User);
 
             return this.Redirect("/Witnesses/Cases");
         }

@@ -17,5 +17,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4);
 
+        public Task AddIndication(IndicationInputModel input, int caseId, ClaimsPrincipal user)
+
     }
 }
