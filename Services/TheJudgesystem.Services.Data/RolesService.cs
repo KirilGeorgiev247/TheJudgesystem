@@ -67,8 +67,8 @@
                 realCV.Achievements = lawyer.Achievements;
             }
 
-            await this.cvsRepository.AddAsync(realCV);
-            await this.cvsRepository.SaveChangesAsync();
+            //await this.cvsRepository.AddAsync(realCV);
+            //await this.cvsRepository.SaveChangesAsync();
 
             var realLawyer = new Lawyer
             {

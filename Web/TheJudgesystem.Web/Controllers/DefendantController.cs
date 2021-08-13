@@ -20,22 +20,25 @@
         }
 
         [HttpGet]
-        public IActionResult Lawyers(int id = 1)
+        public async Task<IActionResult> Lawyers(int id = 1)
         {
-            if (this.defendantService.HasLawyer(this.User))
+            var hasLawyer = await this.defendantService.HasLawyer(this.User);
+
+            if (hasLawyer)
             {
                 return this.Redirect("/Defendant/Info");
             }
 
-            var itemsCount = 6;
+            var itemsCount = 4;
 
             var lawyers = new LawyersListViewModel
             {
                 ItemsPerPage = itemsCount,
-                Lawyers = this.defendantService.GetLawyers(id, itemsCount),
+                Lawyers = await this.defendantService.GetLawyers(id, itemsCount),
                 PageNumber = id,
-                EntityCount = this.defendantService.GetCount(),
             };
+
+            lawyers.EntityCount = lawyers.Lawyers.Count;
 
             return this.View(lawyers);
         }

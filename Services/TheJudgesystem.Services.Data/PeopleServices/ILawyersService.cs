@@ -11,11 +11,11 @@ namespace TheJudgesystem.Services.Data.PeopleServices
     public interface ILawyersService
     {
 
-        public int GetCasesCount();
+        public Task<int> GetCasesCount();
 
-        public Lawyer GetLawyer(ClaimsPrincipal user);
+        public Task<Lawyer> GetLawyer(ClaimsPrincipal user);
 
-        public IEnumerable<CaseInList> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4);
+        public Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4);
 
         public Task AddDefence(DefenceInputModel input, int caseId);
 

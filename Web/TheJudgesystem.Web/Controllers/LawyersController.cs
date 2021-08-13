@@ -21,17 +21,18 @@ namespace TheJudgesystem.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Cases(int id = 1)
+        public async Task<IActionResult> Cases(int id = 1)
         {
             var itemsCount = 4;
 
             var cases = new CasesListViewModel
             {
                 ItemsPerPage = itemsCount,
-                Cases = this.lawyersService.GetCases(this.User, id, itemsCount),
+                Cases = await this.lawyersService.GetCases(this.User, id, itemsCount),
                 PageNumber = id,
-                EntityCount = this.lawyersService.GetCasesCount(),
             };
+
+            cases.EntityCount = cases.Cases.Count;
 
             return this.View(cases);
         }

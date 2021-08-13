@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -30,24 +31,25 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             this.usersService = usersService;
         }
 
-
-        public int GetCasesCount()
+        public async Task<int> GetCasesCount()
         {
-            return this.casesRepository.AllAsNoTracking()
+            var count = await this.casesRepository.AllAsNoTracking()
                 .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
                         && !x.IsSolved)
-                .Count();
+                .CountAsync();
+            return count;
         }
 
-        public Prosecutor GetProsecutor(ClaimsPrincipal user)
+        public async Task<Prosecutor> GetProsecutor(ClaimsPrincipal user)
         {
             var userId = this.usersService.GetApplicationUserId(user);
-            return this.prosecutorsRepository.All().FirstOrDefault(x => x.UserId == userId);
+            var prosecutor = await this.prosecutorsRepository.All().FirstOrDefaultAsync(x => x.UserId == userId);
+            return prosecutor;
         }
 
-        public IEnumerable<CaseInList> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4)
+        public async Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4)
         {
-            return this.casesRepository.All()
+            var result = await this.casesRepository.All()
                 .OrderByDescending(x => x.Id)
                 .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
                         && string.IsNullOrWhiteSpace(x.ProsecutorDecision)
@@ -55,13 +57,15 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<CaseInList>()
-                .ToList();
+                .ToListAsync();
+
+            return result;
         }
 
         public async Task DecideForGuilty(DecisionInputModel input, int caseId, ClaimsPrincipal user)
         {
-            var @case = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
-            var defendant = this.defendantsRepository.All().FirstOrDefault(x => x.CaseId == caseId);
+            var @case = await this.casesRepository.All().FirstOrDefaultAsync(x => x.Id == caseId);
+            var defendant = await this.defendantsRepository.All().FirstOrDefaultAsync(x => x.CaseId == caseId);
 
             @case.ProsecutorId = this.GetProsecutor(user).Id;
             @case.ProsecutorDecision = input.ProsecutorDecision;
@@ -72,7 +76,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public async Task DecideForNotGuilty(DecisionInputModel input, int caseId, ClaimsPrincipal user)
         {
-            var @case = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
+            var @case = await this.casesRepository.All().FirstOrDefaultAsync(x => x.Id == caseId);
 
             @case.ProsecutorId = this.GetProsecutor(user).Id;
             @case.ProsecutorDecision = input.ProsecutorDecision;
@@ -85,7 +89,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         {
             // Add fee to defendant
 
-            var @case = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
+            var @case = await this.casesRepository.All().FirstOrDefaultAsync(x => x.Id == caseId);
 
             @case.ProsecutorId = this.GetProsecutor(user).Id;
             @case.ProsecutorDecision = input.ProsecutorDecision;

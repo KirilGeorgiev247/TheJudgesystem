@@ -11,21 +11,21 @@ namespace TheJudgesystem.Services.Data.PeopleServices
     public interface IDefendantService
     {
 
-        public IEnumerable<LawyerInList> GetLawyers(int page, int itemsPerPage = 6);
+        public Task<ICollection<LawyerInList>> GetLawyers(int page, int itemsPerPage = 4);
 
-        public int GetCount();
+        public Task<int> GetCount();
 
-        public Defendant GetDefendant(ClaimsPrincipal user);
+        public Task<Defendant> GetDefendant(ClaimsPrincipal user);
 
-        public bool HasLawyer(ClaimsPrincipal user);
+        public Task<bool> HasLawyer(ClaimsPrincipal user);
 
-        public MyLawyerViewModel GetMyLawyer(ClaimsPrincipal user);
+        public Task<MyLawyerViewModel> GetMyLawyer(ClaimsPrincipal user);
 
-        public MyCaseViewModel GetMyCase(ClaimsPrincipal user);
+        public Task<MyCaseViewModel> GetMyCase(ClaimsPrincipal user);
 
-        public InfoViewModel GetInfo(ClaimsPrincipal user);
+        public Task<InfoViewModel> GetInfo(ClaimsPrincipal user);
 
-        public MyImageViewModel GetMyImage(ClaimsPrincipal user);
+        public Task<MyImageViewModel> GetMyImage(ClaimsPrincipal user);
 
     }
 }

@@ -7,7 +7,7 @@ namespace TheJudgesystem.Web.ViewModels.Lawyers
     public class CasesListViewModel : PagingViewModel
     {
 
-        public IEnumerable<CaseInList> Cases { get; set; }
+        public ICollection<CaseInList> Cases { get; set; }
 
     }
 }

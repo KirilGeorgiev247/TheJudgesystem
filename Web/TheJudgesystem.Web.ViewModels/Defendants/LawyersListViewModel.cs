@@ -4,6 +4,6 @@
 
     public class LawyersListViewModel : PagingViewModel
     {
-        public IEnumerable<LawyerInList> Lawyers { get; set; }
+        public ICollection<LawyerInList> Lawyers { get; set; }
     }
 }

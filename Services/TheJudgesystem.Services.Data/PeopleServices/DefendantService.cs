@@ -1,6 +1,7 @@
 ﻿namespace TheJudgesystem.Services.Data.PeopleServices
 {
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
@@ -29,85 +30,76 @@
             this.casesRepository = casesRepository;
         }
 
-        public int GetCount()
+        public async Task<int> GetCount()
         {
-            return this.lawyersRepository.AllAsNoTracking().Count();
+            var count = await this.lawyersRepository.AllAsNoTracking().CountAsync();
+
+            return count;
         }
 
-        public Defendant GetDefendant(ClaimsPrincipal user)
+        public async Task<Defendant> GetDefendant(ClaimsPrincipal user)
         {
             var userId = this.usersService.GetApplicationUserId(user);
-            return this.defendantsRepository.All().FirstOrDefault(x => x.UserId == userId);
+            var defendant = await this.defendantsRepository.All().FirstOrDefaultAsync(x => x.UserId == userId);
+            return defendant;
         }
 
-        public InfoViewModel GetInfo(ClaimsPrincipal user)
+        public async Task<InfoViewModel> GetInfo(ClaimsPrincipal user)
         {
             var info = new InfoViewModel
             {
-                Lawyer = this.GetMyLawyer(user),
-                Case = this.GetMyCase(user),
-                ImageUrl = this.GetMyImage(user).ImageUrl,
+                Lawyer = await this.GetMyLawyer(user),
+                Case = await this.GetMyCase(user),
+                ImageUrl = this.GetMyImage(user).Result.ImageUrl,
             };
 
             return info;
         }
 
-        public IEnumerable<LawyerInList> GetLawyers(int page, int itemsPerPage = 6)
+        public async Task<ICollection<LawyerInList>> GetLawyers(int page, int itemsPerPage = 4)
         {
-            return this.lawyersRepository.All()
+            var result = await this.lawyersRepository.All()
                 .OrderByDescending(x => x.Rating)
                 .ThenByDescending(x => x.Id)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<LawyerInList>()
-                //.Select(x => new LawyerInList
-                //{
-                //    Id = x.Id,
-                //    FirstName = x.FirstName,
-                //    LastName = x.LastName,
-                //    Rating = x.Rating,
-                //    ImageUrl = x.ImageUrl,
-                //    Salary = x.Salary,
-                //    CV = new CvInList
-                //    {
-                //        Age = x.CV.Age,
-                //        BirthTown = x.CV.BirthTown,
-                //        School = x.CV.School,
-                //        University = x.CV.University,
-                //        Achievements = x.CV.Achievements,
-                //    },
-                //})
-                .ToList();
+                .ToListAsync();
+            return result;
         }
 
-        public MyCaseViewModel GetMyCase(ClaimsPrincipal user)
+        public async Task<MyCaseViewModel> GetMyCase(ClaimsPrincipal user)
         {
-            return this.casesRepository.All()
-                .Where(x => x.Id == this.GetDefendant(user).CaseId)
+            var @case = await this.casesRepository.All()
+                .Where(x => x.Id == this.GetDefendant(user).Result.CaseId)
                 .To<MyCaseViewModel>()
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
+
+            return @case;
         }
 
-        public MyLawyerViewModel GetMyLawyer(ClaimsPrincipal user)
+        public async Task<MyLawyerViewModel> GetMyLawyer(ClaimsPrincipal user)
         {
-            return this.lawyersRepository.All()
-                .Where(x => x.Id == this.GetDefendant(user).LawyerId)
+            var lawyer = await this.lawyersRepository.All()
+                .Where(x => x.Id == this.GetDefendant(user).Result.LawyerId)
                 .To<MyLawyerViewModel>()
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
+            return lawyer;
         }
 
-        public MyImageViewModel GetMyImage(ClaimsPrincipal user)
+        public async Task<MyImageViewModel> GetMyImage(ClaimsPrincipal user)
         {
             var userId = this.usersService.GetApplicationUserId(user);
-            return this.defendantsRepository.All()
+            var image = await this.defendantsRepository.All()
                     .Where(x => x.UserId == userId)
                     .To<MyImageViewModel>()
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
+            return image;
         }
 
-        public bool HasLawyer(ClaimsPrincipal user)
+        public async Task<bool> HasLawyer(ClaimsPrincipal user)
         {
-            var defendant = this.GetDefendant(user);
+            var defendant = await this.GetDefendant(user);
 
             if (defendant.LawyerId != null)
             {
@@ -119,8 +111,8 @@
 
         public async Task HireLawyer(int id, ClaimsPrincipal user)
         {
-            var defendant = this.GetDefendant(user);
-            var lawyer = this.lawyersRepository.All().FirstOrDefault(x => x.Id == id);
+            var defendant = await this.GetDefendant(user);
+            var lawyer = await this.lawyersRepository.All().FirstOrDefaultAsync(x => x.Id == id);
 
             defendant.LawyerId = lawyer.Id;
 

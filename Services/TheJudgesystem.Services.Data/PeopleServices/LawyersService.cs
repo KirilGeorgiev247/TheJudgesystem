@@ -8,6 +8,7 @@ using TheJudgesystem.Data.Models;
 using TheJudgesystem.Web.ViewModels.Lawyers;
 using TheJudgesystem.Services.Mapping;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace TheJudgesystem.Services.Data.PeopleServices
 {
@@ -30,22 +31,24 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             this.usersService = usersService;
         }
 
-        public int GetCasesCount()
+        public async Task<int> GetCasesCount()
         {
-            return this.casesRepository.AllAsNoTracking()
+            var count = await this.casesRepository.AllAsNoTracking()
                 .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence) && !x.IsSolved)
-                .Count();
+                .CountAsync();
+            return count;
         }
 
-        public Lawyer GetLawyer(ClaimsPrincipal user)
+        public async Task<Lawyer> GetLawyer(ClaimsPrincipal user)
         {
             var userId = this.usersService.GetApplicationUserId(user);
-            return this.lawyersRepository.All().FirstOrDefault(x => x.UserId == userId);
+            var lawyer = await this.lawyersRepository.All().FirstOrDefaultAsync(x => x.UserId == userId);
+            return lawyer;
         }
 
-        public IEnumerable<CaseInList> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4)
+        public async Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4)
         {
-            return this.casesRepository.All()
+            var result = await this.casesRepository.All()
                 .OrderByDescending(x => x.Id)
                 .Where(x => x.LawyerId == this.GetLawyer(user).Id
                         && string.IsNullOrWhiteSpace(x.LawyerDefence)
@@ -53,18 +56,18 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<CaseInList>()
-                .ToList();
+                .ToListAsync();
+
+            return result;
         }
 
         public async Task AddDefence(DefenceInputModel input, int caseId)
         {
-
-            var @case = this.casesRepository.All().FirstOrDefault(x => x.Id == caseId);
+            var @case = await this.casesRepository.All().FirstOrDefaultAsync(x => x.Id == caseId);
 
             @case.LawyerDefence = input.LawyerDefence;
 
             await this.casesRepository.SaveChangesAsync();
-
         }
     }
 }

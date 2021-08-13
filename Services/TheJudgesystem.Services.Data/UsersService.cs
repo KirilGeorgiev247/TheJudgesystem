@@ -24,7 +24,9 @@ namespace TheJudgesystem.Services.Data
 
         public string GetApplicationUserId(ClaimsPrincipal user)
         {
-            return user.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            return userId;
         }
 
         public async Task SetRole(string role, ClaimsPrincipal user)
@@ -43,7 +45,6 @@ namespace TheJudgesystem.Services.Data
 
                 var currentUser = await this.GetUser(user);
                 await this.userManager.AddToRoleAsync(currentUser, role);
-
             }
         }
 
@@ -70,14 +71,12 @@ namespace TheJudgesystem.Services.Data
 
         public string GetApplicaionUserRole(ClaimsPrincipal user)
         {
-
             if (user == null)
             {
                 return null;
             }
 
-            return user.FindFirst(ClaimTypes.Role).Value;
-
+            return user.FindFirstValue(ClaimTypes.Role);
         }
     }
 }

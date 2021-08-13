@@ -10,11 +10,11 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 {
     public interface IProsecutorsService
     {
-        public int GetCasesCount();
+        public Task<int> GetCasesCount();
 
-        public Prosecutor GetProsecutor(ClaimsPrincipal user);
+        public Task<Prosecutor> GetProsecutor(ClaimsPrincipal user);
 
-        public IEnumerable<CaseInList> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4);
+        public Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4);
 
         public Task DecideForGuilty(DecisionInputModel input, int caseId, ClaimsPrincipal user);
 

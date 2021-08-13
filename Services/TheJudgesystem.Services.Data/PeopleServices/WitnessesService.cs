@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using TheJudgesystem.Data.Common.Repositories;
 using TheJudgesystem.Data.Models;
 using TheJudgesystem.Services.Mapping;
@@ -26,25 +28,26 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             this.usersService = usersService;
         }
 
-
-        public int GetCasesCount()
+        public async Task<int> GetCasesCount()
         {
-            return this.casesRepository.AllAsNoTracking()
+            var count = await this.casesRepository.AllAsNoTracking()
                 .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
                         && string.IsNullOrWhiteSpace(x.ProsecutorDecision)
                         && !x.IsSolved)
-                .Count();
+                .CountAsync();
+            return count;
         }
 
-        public Witness GetWitness(ClaimsPrincipal user)
+        public async Task<Witness> GetWitness(ClaimsPrincipal user)
         {
             var userId = this.usersService.GetApplicationUserId(user);
-            return this.witnessesRepository.All().FirstOrDefault(x => x.UserId == userId);
+            var witness = await this.witnessesRepository.All().FirstOrDefaultAsync(x => x.UserId == userId);
+            return witness;
         }
 
-        public IEnumerable<CaseInList> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4)
+        public async Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4)
         {
-            return this.casesRepository.All()
+            var result = await this.casesRepository.All()
                 .OrderByDescending(x => x.Id)
                 .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
                         && string.IsNullOrWhiteSpace(x.ProsecutorDecision)
@@ -52,8 +55,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<CaseInList>()
-                .ToList();
-        }
+                .ToListAsync();
 
+            return result;
+        }
     }
 }
