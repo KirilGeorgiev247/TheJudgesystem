@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +37,8 @@ namespace TheJudgesystem.Services.Data.StuffServices
 
         public async Task AddCase(CaseInputModel input, ClaimsPrincipal user, int id)
         {
-            var defendant = this.defendantService.GetDefendant(user);
-            var lawyer = this.lawyersRepository.All().FirstOrDefault(x => x.Id == input.LawyerId);
+            var defendant = await this.defendantService.GetDefendant(user);
+            var lawyer = await this.lawyersRepository.All().FirstOrDefaultAsync(x => x.Id == input.LawyerId);
 
             var realCase = new Case
             {
@@ -47,17 +48,10 @@ namespace TheJudgesystem.Services.Data.StuffServices
             };
 
             await this.casesRepository.AddAsync(realCase);
-            await this.casesRepository.SaveChangesAsync();
 
-            lawyer.Cases.Add(realCase);
-            lawyer.Clients.Add(defendant);
-            defendant.Case = realCase;
-            defendant.CaseId = realCase.Id;
             defendant.LawyerId = lawyer.Id;
-            defendant.Lawyer = lawyer;
 
-            await this.defendantsRepository.SaveChangesAsync();
-            await this.lawyersRepository.SaveChangesAsync();
+            await this.casesRepository.SaveChangesAsync();
         }
     }
 }

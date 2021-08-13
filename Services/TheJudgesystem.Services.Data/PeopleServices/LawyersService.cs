@@ -48,9 +48,11 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public async Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4)
         {
+            var lawyer = await this.GetLawyer(user);
+
             var result = await this.casesRepository.All()
                 .OrderByDescending(x => x.Id)
-                .Where(x => x.LawyerId == this.GetLawyer(user).Id
+                .Where(x => x.LawyerId == lawyer.Id
                         && string.IsNullOrWhiteSpace(x.LawyerDefence)
                         && !x.IsSolved)
                 .Skip((page - 1) * itemsPerPage)

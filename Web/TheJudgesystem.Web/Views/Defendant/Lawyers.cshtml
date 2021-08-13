@@ -43,7 +43,14 @@ else
                 </div>
                 <div class="text-center">
                     <label class="text-black-50">Achivements:</label>
-                    <span class="text-center">@lawyer.CV.Achievements</span>
+                    @if (string.IsNullOrWhiteSpace(lawyer.CV.Achievements))
+                    {
+                        <span class="text-center">Not given!</span>
+                    }
+                    else
+                    {
+                        <span class="text-center">@lawyer.CV.Achievements</span>
+                    }
                 </div>
             </div>
 

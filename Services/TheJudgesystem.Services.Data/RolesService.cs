@@ -56,16 +56,8 @@
                 BirthTown = lawyer.BirthTown,
                 School = lawyer.School,
                 University = lawyer.University,
+                Achievements = lawyer.Achievements,
             };
-
-            if (string.IsNullOrEmpty(lawyer.Achievements))
-            {
-                realCV.Achievements = "Not given!";
-            }
-            else
-            {
-                realCV.Achievements = lawyer.Achievements;
-            }
 
             //await this.cvsRepository.AddAsync(realCV);
             //await this.cvsRepository.SaveChangesAsync();
@@ -98,19 +90,11 @@
                 BirthTown = judge.BirthTown,
                 School = judge.School,
                 University = judge.University,
+                Achievements = judge.Achievements,
             };
 
-            if (string.IsNullOrEmpty(judge.Achievements))
-            {
-                realCV.Achievements = "Not given!";
-            }
-            else
-            {
-                realCV.Achievements = judge.Achievements;
-            }
-
-            await this.cvsRepository.AddAsync(realCV);
-            await this.cvsRepository.SaveChangesAsync();
+            //await this.cvsRepository.AddAsync(realCV);
+            //await this.cvsRepository.SaveChangesAsync();
 
             var realJudge = new Judge
             {
