@@ -14,9 +14,11 @@
 else
 {
     <div class="text-center">
-        <form action="/Home/Role" method="get">
+        <form method="get">
             <label class="text-justify">We need to identify your role!</label>
-            <input class="form-control col-md-6 offset-3 text-primary" type="submit" name="role" value="Choose Your Role" />
+            <button asp-controller="Home" asp-action="Role" class="form-control col-md-6 offset-3 text-primary btn-outline-dark">
+                Choose Your Role
+            </button>
         </form>
     </div>
 }

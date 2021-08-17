@@ -47,6 +47,12 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Witnesses" asp-action="Cases">Cases</a>
                             </li>
                         }
+                        else if (this.usersService.IsInThisRole("JuryMember", this.User).Result)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Jurymembers" asp-action="Cases">Cases</a>
+                            </li>
+                        }
                         else
                         {
                             <li class="nav-item">

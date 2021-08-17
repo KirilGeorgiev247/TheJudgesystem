@@ -1,0 +1,65 @@
+﻿@using TheJudgesystem.Web.ViewModels.JuryMembers
+@model JurymembersListViewModel
+<h1 class="text-center mt-2">Cases</h1>
+<hr />
+<div class="row mt-auto mb-auto">
+    @foreach (var casee in this.Model.Cases)
+    {
+<div class="col-6 col-lg-3 text-wrap">
+    <div class="w-75 p-3" style="background-color: #eee;">
+        <img src="@casee.DefendantImageUrl"
+             class="img-fluid">
+    </div>
+    <div class="align-content-lg-center">
+        <h5 class="card-title text-center" data-toggle="tooltip" data-placement="bottom">
+            <div class="text-left text-wrap">
+                <label>Defendant:</label>
+                <span>@casee.DefendantFirstName @casee.DefendantLastName</span>
+            </div>
+
+            <div class="text-left text-wrap">
+                <label>Charges:</label>
+                <span>@casee.DefendantCharges</span>
+            </div>
+
+            <div class="text-left text-wrap">
+                <label>Description:</label>
+                <span>@casee.Description </span>
+            </div>
+
+            <div class="text-left text-wrap">
+                <label>Lawyer defence:</label>
+                <span>@casee.LawyerDefence </span>
+            </div>
+
+            <div class="text-left text-wrap">
+                <label>Prosecutor decision:</label>
+                <span>@casee.ProsecutorDecision </span>
+            </div>
+
+        </h5>
+    </div>
+    @if (casee.Indications.Count == 0)
+    {
+<div>
+    <label>Indications:</label>
+    <span>There are no witnesses!</span>
+</div> }
+else
+{
+<div>
+
+    @foreach (var indication in casee.Indications)
+    {
+
+    <label>@indication.WitnessFirstName @indication.WitnessLastName:</label>
+    <span>@indication.Description</span>
+
+    }
+</div>}
+    <a asp-controller="Jurymembers" asp-action="Opinion" asp-route-id="@casee.Id" class="btn btn-block btn-primary">Tell your indications</a>
+</div>}
+</div>
+
+
+<partial name="_PagingPartial" model="@Model" />

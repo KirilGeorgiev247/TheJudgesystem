@@ -39,6 +39,7 @@ namespace TheJudgesystem.Services.Data.StuffServices
         {
             var defendant = await this.defendantService.GetDefendant(user);
             var lawyer = await this.lawyersRepository.All().FirstOrDefaultAsync(x => x.Id == input.LawyerId);
+            defendant.LawyerId = lawyer.Id;
 
             var realCase = new Case
             {
@@ -49,7 +50,9 @@ namespace TheJudgesystem.Services.Data.StuffServices
 
             await this.casesRepository.AddAsync(realCase);
 
-            defendant.LawyerId = lawyer.Id;
+            await this.casesRepository.SaveChangesAsync();
+
+            defendant.CaseId = realCase.Id;
 
             await this.casesRepository.SaveChangesAsync();
         }

@@ -8,6 +8,8 @@ namespace TheJudgesystem.Web.ViewModels.Defendants
 {
     public class CaseIndicationViewModel : IMapFrom<Indication>
     {
+        public int Id { get; set; }
+
         public string Description { get; set; }
 
         public string WitnessFirstName { get; set; }

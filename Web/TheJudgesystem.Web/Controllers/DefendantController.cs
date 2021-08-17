@@ -36,17 +36,16 @@
                 ItemsPerPage = itemsCount,
                 Lawyers = await this.defendantService.GetLawyers(id, itemsCount),
                 PageNumber = id,
+                EntityCount = await this.defendantService.GetCount(),
             };
-
-            lawyers.EntityCount = lawyers.Lawyers.Count;
 
             return this.View(lawyers);
         }
 
         [HttpGet]
-        public IActionResult Info()
+        public async Task<IActionResult> Info()
         {
-            var infoModel = this.defendantService.GetInfo(this.User);
+            var infoModel = await this.defendantService.GetInfo(this.User);
 
             return this.View(infoModel);
         }

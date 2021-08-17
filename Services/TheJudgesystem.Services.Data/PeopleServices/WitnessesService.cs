@@ -28,12 +28,15 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             this.usersService = usersService;
         }
 
-        public async Task<int> GetCasesCount()
+        public async Task<int> GetCasesCount(ClaimsPrincipal user)
         {
+            var witness = await this.GetWitness(user);
+
             var count = await this.casesRepository.AllAsNoTracking()
-                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
-                        && string.IsNullOrWhiteSpace(x.ProsecutorDecision)
-                        && !x.IsSolved)
+                .Where(x => !string.IsNullOrWhiteSpace(x.LawyerDefence)
+                        && !string.IsNullOrWhiteSpace(x.ProsecutorDecision)
+                        && !x.IsSolved
+                        && !x.Indications.Any(x => x.WitnessId == witness.Id))
                 .CountAsync();
             return count;
         }
@@ -47,11 +50,14 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public async Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4)
         {
+            var witness = await this.GetWitness(user);
+
             var result = await this.casesRepository.All()
                 .OrderByDescending(x => x.Id)
-                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
-                        && string.IsNullOrWhiteSpace(x.ProsecutorDecision)
-                        && !x.IsSolved)
+                .Where(x => !string.IsNullOrWhiteSpace(x.LawyerDefence)
+                        && !string.IsNullOrWhiteSpace(x.ProsecutorDecision)
+                        && !x.IsSolved
+                        && !x.Indications.Any(x => x.WitnessId == witness.Id))
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<CaseInList>()

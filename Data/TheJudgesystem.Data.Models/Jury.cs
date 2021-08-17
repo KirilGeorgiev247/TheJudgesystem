@@ -8,10 +8,10 @@
     {
         public Jury()
         {
-            this.Members = new HashSet<JuryMember>();
+            this.Members = new HashSet<Jurymember>();
         }
 
-        public ICollection<JuryMember> Members { get; set; }
+        public ICollection<Jurymember> Members { get; set; }
 
         public string Pronouncement { get; set; }
 

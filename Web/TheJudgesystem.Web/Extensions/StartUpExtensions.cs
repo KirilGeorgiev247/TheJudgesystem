@@ -31,7 +31,7 @@ namespace TheJudgesystem.Web.Extensions
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IDefendantService, DefendantService>();
             services.AddTransient<IJudgesService, JudgesService>();
-            services.AddTransient<IJuryMembersService, JuryMembersService>();
+            services.AddTransient<IJurymembersService, JurymembersService>();
             services.AddTransient<ILawyersService, LawyersService>();
             services.AddTransient<IProsecutorsService, ProsecutorsService>();
             services.AddTransient<IGuardsService, GuardsService>();

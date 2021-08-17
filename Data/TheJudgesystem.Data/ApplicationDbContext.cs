@@ -43,7 +43,7 @@
 
         public DbSet<Jury> Juries { get; set; }
 
-        public DbSet<JuryMember> JuryMembers { get; set; }
+        public DbSet<Jurymember> Jurymembers { get; set; }
 
         public DbSet<Prosecutor> Prosecutors { get; set; }
 

@@ -26,8 +26,24 @@
                 GlobalConstants.LawyerRole => this.Redirect("/Lawyers/Cases"),
                 GlobalConstants.ProsecutorRole => this.Redirect("/Prosecutors/Cases"),
                 GlobalConstants.WitnessRole => this.Redirect("/Witnesses/Cases"),
+                GlobalConstants.JurymemberRole => this.Redirect("/Jurymembers/Cases"),
                 _ => this.View(),
             };
+        }
+
+        [Authorize]
+        public IActionResult Role()
+        {
+            if (this.usersService.IsInThisRole(GlobalConstants.DefendantRole, this.User).Result)
+            {
+                return this.Redirect("/Defendant/Lawyers");
+            }
+            else if (this.usersService.IsInThisRole(GlobalConstants.JurymemberRole, this.User).Result)
+            {
+                return this.Redirect("/Jurymembers/Cases");
+            }
+
+            return this.View();
         }
 
         public IActionResult Privacy()

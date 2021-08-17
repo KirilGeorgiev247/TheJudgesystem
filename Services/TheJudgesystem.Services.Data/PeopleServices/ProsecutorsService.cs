@@ -34,7 +34,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         public async Task<int> GetCasesCount()
         {
             var count = await this.casesRepository.AllAsNoTracking()
-                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
+                .Where(x => !string.IsNullOrWhiteSpace(x.LawyerDefence)
                         && !x.IsSolved)
                 .CountAsync();
             return count;
@@ -51,7 +51,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         {
             var result = await this.casesRepository.All()
                 .OrderByDescending(x => x.Id)
-                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
+                .Where(x => !string.IsNullOrWhiteSpace(x.LawyerDefence)
                         && string.IsNullOrWhiteSpace(x.ProsecutorDecision)
                         && !x.IsSolved)
                 .Skip((page - 1) * itemsPerPage)
@@ -67,7 +67,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             var @case = await this.casesRepository.All().FirstOrDefaultAsync(x => x.Id == caseId);
             var defendant = await this.defendantsRepository.All().FirstOrDefaultAsync(x => x.CaseId == caseId);
 
-            @case.ProsecutorId = this.GetProsecutor(user).Id;
+            var prosecutor = await this.GetProsecutor(user);
+
+            @case.ProsecutorId = prosecutor.Id;
             @case.ProsecutorDecision = input.ProsecutorDecision;
             defendant.IsGuilty = true;
 

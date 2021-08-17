@@ -10,8 +10,8 @@ using TheJudgesystem.Data;
 namespace TheJudgesystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210805175618_AddedNewPropertiesToCase")]
-    partial class AddedNewPropertiesToCase
+    [Migration("20210816131147_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -647,7 +647,7 @@ namespace TheJudgesystem.Data.Migrations
                     b.ToTable("Juries");
                 });
 
-            modelBuilder.Entity("TheJudgesystem.Data.Models.JuryMember", b =>
+            modelBuilder.Entity("TheJudgesystem.Data.Models.Jurymember", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -677,8 +677,8 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Opinion")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Opinion")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
@@ -689,7 +689,7 @@ namespace TheJudgesystem.Data.Migrations
 
                     b.HasIndex("JuryId");
 
-                    b.ToTable("JuryMembers");
+                    b.ToTable("Jurymembers");
                 });
 
             modelBuilder.Entity("TheJudgesystem.Data.Models.Lawyer", b =>
@@ -1072,7 +1072,7 @@ namespace TheJudgesystem.Data.Migrations
                     b.Navigation("CV");
                 });
 
-            modelBuilder.Entity("TheJudgesystem.Data.Models.JuryMember", b =>
+            modelBuilder.Entity("TheJudgesystem.Data.Models.Jurymember", b =>
                 {
                     b.HasOne("TheJudgesystem.Data.Models.Jury", "Jury")
                         .WithMany("Members")

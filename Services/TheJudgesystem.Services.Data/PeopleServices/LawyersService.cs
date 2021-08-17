@@ -34,7 +34,8 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         public async Task<int> GetCasesCount()
         {
             var count = await this.casesRepository.AllAsNoTracking()
-                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence) && !x.IsSolved)
+                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence) 
+                        && !x.IsSolved)
                 .CountAsync();
             return count;
         }

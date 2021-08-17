@@ -21,7 +21,7 @@
         private readonly IDeletableEntityRepository<Prosecutor> prosecutorsRepository;
         private readonly IDeletableEntityRepository<Defendant> defendantsRepository;
         private readonly IDeletableEntityRepository<Guard> guardsRepository;
-        private readonly IDeletableEntityRepository<JuryMember> juryMembersRepository;
+        private readonly IDeletableEntityRepository<Jurymember> juryMembersRepository;
 
         public RolesService(
             IUsersService usersService,
@@ -32,7 +32,7 @@
             IDeletableEntityRepository<Prosecutor> prosecutorsRepository,
             IDeletableEntityRepository<Defendant> defendantsRepository,
             IDeletableEntityRepository<Guard> guardsRepository,
-            IDeletableEntityRepository<JuryMember> juryMembersRepository)
+            IDeletableEntityRepository<Jurymember> juryMembersRepository)
         {
             this.usersService = usersService;
             this.lawyersRepository = lawyersRepository ?? throw new ArgumentNullException(nameof(lawyersRepository));
@@ -140,7 +140,6 @@
                 ImageUrl = prosecutor.ImageUrl,
             };
 
-
             await this.usersService.SetRole(GlobalConstants.ProsecutorRole, user);
 
             await this.prosecutorsRepository.AddAsync(realProsecutor);
@@ -188,18 +187,17 @@
 
         public async Task AddJuryMember(JuryMemberInputModel juryMember, ClaimsPrincipal user)
         {
-            var realJuryMember = new JuryMember
+            var realJuryMember = new Jurymember
             {
                 UserId = this.usersService.GetApplicationUserId(user),
                 FirstName = juryMember.FirstName,
                 LastName = juryMember.LastName,
             };
 
-            await this.usersService.SetRole(GlobalConstants.JuryMemberRole, user);
+            await this.usersService.SetRole(GlobalConstants.JurymemberRole, user);
 
             await this.juryMembersRepository.AddAsync(realJuryMember);
             await this.juryMembersRepository.SaveChangesAsync();
-
         }
     }
 }

@@ -8,15 +8,13 @@ namespace TheJudgesystem.Web.ViewModels.Defendants
 {
     public class MyCaseViewModel : IMapFrom<Case>
     {
+        public int Id { get; set; }
+
         public string LawyerFirstName { get; set; }
 
         public string LawyerLastName { get; set; }
 
         public int? LawyerId { get; set; }
-
-        //public IEnumerable<JuryMember> Jury { get; set; }
-
-        //public int? JuryId { get; set; }
 
         public string ProsecutorFirstName { get; set; }
 

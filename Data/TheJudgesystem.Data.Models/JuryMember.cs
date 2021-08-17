@@ -2,10 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-
+    using TheJudgesystem.Data.Common.Enumerations;
     using TheJudgesystem.Data.Common.Models;
 
-    public class JuryMember : BaseDeletableModel<int>
+    public class Jurymember : BaseDeletableModel<int>
     {
         public string UserId { get; set; }
 
@@ -15,7 +15,7 @@
         [Required]
         public string LastName { get; set; }
 
-        public string Opinion { get; set; }
+        public GuiltinessEnumeration Opinion { get; set; }
 
         public Jury Jury { get; set; }
 

@@ -24,6 +24,6 @@
 
         public const string JudgeRole = "Judge";
 
-        public const string JuryMemberRole = "JuryMember";
+        public const string JurymemberRole = "Jurymember";
     }
 }

@@ -70,8 +70,10 @@
 
         public async Task<MyCaseViewModel> GetMyCase(ClaimsPrincipal user)
         {
+            var defendant = await this.GetDefendant(user);
+
             var @case = await this.casesRepository.All()
-                .Where(x => x.Id == this.GetDefendant(user).Result.CaseId)
+                .Where(x => x.DefendantId == defendant.Id)
                 .To<MyCaseViewModel>()
                 .FirstOrDefaultAsync();
 

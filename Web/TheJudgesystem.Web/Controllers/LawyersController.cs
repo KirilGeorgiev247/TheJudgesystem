@@ -30,9 +30,8 @@ namespace TheJudgesystem.Web.Controllers
                 ItemsPerPage = itemsCount,
                 Cases = await this.lawyersService.GetCases(this.User, id, itemsCount),
                 PageNumber = id,
+                EntityCount = await this.lawyersService.GetCasesCount(),
             };
-
-            cases.EntityCount = cases.Cases.Count;
 
             return this.View(cases);
         }
