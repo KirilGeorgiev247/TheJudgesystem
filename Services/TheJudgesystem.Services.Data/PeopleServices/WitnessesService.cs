@@ -78,8 +78,6 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                 CaseId = @case.Id,
             };
 
-            @case.Indications.Add(realIndication);
-
             await this.casesRepository.SaveChangesAsync();
         }
     }

@@ -15,7 +15,10 @@
         [Required]
         public string LastName { get; set; }
 
-        public GuiltinessEnumeration Opinion { get; set; }
+        public Opinion Opinion { get; set; }
+
+        [ForeignKey(nameof(Opinion))]
+        public int? OpinionId { get; set; }
 
         public Jury Jury { get; set; }
 

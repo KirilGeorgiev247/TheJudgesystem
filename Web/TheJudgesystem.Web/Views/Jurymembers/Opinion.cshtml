@@ -1,1 +1,17 @@
-﻿
+﻿@model TheJudgesystem.Web.ViewModels.Jurymembers.OpinionInputModel
+@using TheJudgesystem.Data.Common.Enumerations
+<form method="post" class="col-md-6 offset-3">
+    <div asp-validation-summary="All"></div>
+
+    <div asp-validation-summary="ModelOnly" class="form-group"></div>
+    <div>
+        <label asp-for="Description">Write what do you think for this case: </label>
+        <textarea asp-for="Description" class="form-control" rows="10"> </textarea> <br />
+        <span asp-validation-for="Description" class="alert-danger"></span>
+    </div>
+
+    <div class="btn-group col-md-12" role="group" aria-label="Basic outlined example">
+        <button asp-controller="Jurymembers" asp-action="Opinion" name="button" value="@GuiltinessEnumeration.Guilty" class="btn btn-outline-danger">@GuiltinessEnumeration.Guilty</button>
+        <button asp-controller="Jurymembers" asp-action="Opinion" name="button" value="@GuiltinessEnumeration.NotGuilty" class="btn btn-outline-success">@GuiltinessEnumeration.NotGuilty</button>
+    </div>
+</form>

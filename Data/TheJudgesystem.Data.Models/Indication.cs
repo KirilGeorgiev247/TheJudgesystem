@@ -13,11 +13,13 @@
         public Case Case { get; set; }
 
         [ForeignKey(nameof(Case))]
-        public int? CaseId { get; set; }
+        [Required]
+        public int CaseId { get; set; }
 
         public Witness Witness { get; set; }
 
+        [Required]
         [ForeignKey(nameof(Witness))]
-        public int? WitnessId { get; set; }
+        public int WitnessId { get; set; }
     }
 }

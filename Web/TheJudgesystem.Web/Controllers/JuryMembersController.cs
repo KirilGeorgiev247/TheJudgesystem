@@ -6,7 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheJudgesystem.Common;
 using TheJudgesystem.Services.Data.PeopleServices;
-using TheJudgesystem.Web.ViewModels.JuryMembers;
+using TheJudgesystem.Web.ViewModels.Jurymembers;
+using TheJudgesystem.Web.ViewModels.Jurymember;
+using TheJudgesystem.Data.Common.Enumerations;
 
 namespace TheJudgesystem.Web.Controllers
 {
@@ -43,18 +45,20 @@ namespace TheJudgesystem.Web.Controllers
             return this.View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Opinion(OpinionInputModel input, int id)
-        //{
-        //    if (!this.ModelState.IsValid)
-        //    {
-        //        return this.View();
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> Opinion(OpinionInputModel input, int id, string button)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
 
-        //    await this.juryMembersService.AddIndication(input, id, this.User);
+            input.Opinion = (GuiltinessEnumeration)Enum.Parse(typeof(GuiltinessEnumeration), button, true);
 
-        //    return this.Redirect("/Witnesses/Cases");
-        //}
+            await this.juryMembersService.AddOpinion(input, id, this.User);
+
+            return this.Redirect("/Jurymembers/Cases");
+        }
 
     }
 }

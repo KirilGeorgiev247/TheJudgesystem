@@ -25,5 +25,9 @@
         public const string JudgeRole = "Judge";
 
         public const string JurymemberRole = "Jurymember";
+
+        public const string JuryGuiltyPronouncement = "Guilty";
+
+        public const string JuryNotGuiltyPronouncement = "Not guilty";
     }
 }

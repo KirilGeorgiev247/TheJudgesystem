@@ -5,7 +5,7 @@ using System.Text;
 using TheJudgesystem.Data.Models;
 using TheJudgesystem.Services.Mapping;
 
-namespace TheJudgesystem.Web.ViewModels.JuryMembers
+namespace TheJudgesystem.Web.ViewModels.Jurymembers
 {
     public class IndicationViewModel : IMapFrom<Indication>
     {
