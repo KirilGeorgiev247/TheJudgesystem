@@ -16,15 +16,18 @@ namespace TheJudgesystem.Services.Data.PeopleServices
     {
         private readonly IDeletableEntityRepository<Case> casesRepository;
         private readonly IDeletableEntityRepository<Witness> witnessesRepository;
+        private readonly IDeletableEntityRepository<Indication> indicationsRepository;
         private readonly IUsersService usersService;
 
         public WitnessesService(
             IDeletableEntityRepository<Case> casesRepository,
             IDeletableEntityRepository<Witness> witnessesRepository,
+            IDeletableEntityRepository<Indication> indicationsRepository,
             IUsersService usersService)
         {
             this.casesRepository = casesRepository;
             this.witnessesRepository = witnessesRepository;
+            this.indicationsRepository = indicationsRepository;
             this.usersService = usersService;
         }
 
@@ -78,6 +81,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                 CaseId = @case.Id,
             };
 
+            await this.indicationsRepository.AddAsync(realIndication);
             await this.casesRepository.SaveChangesAsync();
         }
     }

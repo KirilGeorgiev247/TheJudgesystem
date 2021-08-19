@@ -109,34 +109,28 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
             if (@case.JuryId == null)
             {
-                var realJury = new Jury
-                {
-                    CaseId = caseId,
-                };
-
-                await this.juriesRepository.AddAsync(realJury);
-                await this.juriesRepository.SaveChangesAsync();
+                await this.CreateJury(caseId);
             }
 
             var jury = await this.juriesRepository.All().FirstOrDefaultAsync(x => x.CaseId == caseId);
-            @case.JuryId = jury.Id;
 
-            if (jury.Members.Count < 3)
+            if (@case.JuryId == null)
             {
-                var opinion = new Opinion
-                {
-                    Guiltiness = input.Opinion,
-                    Description = input.Description,
-                    JurymemberId = juryMember.Id,
-                    CaseId = @case.Id,
-                };
-
-                await this.opinionsRepository.AddAsync(opinion);
-
-                juryMember.JuryId = jury.Id;
-
-                await this.opinionsRepository.SaveChangesAsync();
+                @case.JuryId = jury.Id;
             }
+
+            await this.CreateOpinion(input.Opinion, input.Description, juryMember.Id, @case.Id, jury.Id);
+
+            var opinion = await this.opinionsRepository.All().FirstOrDefaultAsync(x => x.JurymemberId == juryMember.Id);
+
+            juryMember.OpinionId = opinion.Id;
+
+            jury.Members.Add(juryMember);
+            juryMember.JuryId = jury.Id;
+            jury.Opinions.Add(opinion);
+
+            var count = jury.Members.Count;
+            var opinionsCount = jury.Opinions.Count;
 
             if (jury.Members.Count == 2)
             {
@@ -168,10 +162,34 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                 }
             }
 
-            var test = await this.juriesRepository.All().Where(x => x.CaseId == caseId).ToListAsync();
-
             await this.casesRepository.SaveChangesAsync();
         }
 
+        private async Task CreateOpinion(GuiltinessEnumeration opinion, string description, int id1, int id2, int id3)
+        {
+            var realOpinion = new Opinion
+            {
+                Guiltiness = opinion,
+                Description = description,
+                JurymemberId = id1,
+                CaseId = id2,
+                JuryId = id3,
+            };
+
+            await this.opinionsRepository.AddAsync(realOpinion);
+            await this.opinionsRepository.SaveChangesAsync();
+
+        }
+
+        private async Task CreateJury(int caseId)
+        {
+            var realJury = new Jury
+            {
+                CaseId = caseId,
+            };
+
+            await this.juriesRepository.AddAsync(realJury);
+            await this.juriesRepository.SaveChangesAsync();
+        }
     }
 }

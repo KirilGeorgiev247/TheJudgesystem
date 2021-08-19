@@ -23,7 +23,7 @@ namespace TheJudgesystem.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Cases(int id = 1)
         {
-            var itemsCount = 4;
+            var itemsCount = 1;
 
             var cases = new CasesListViewModel
             {

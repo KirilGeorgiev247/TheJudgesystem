@@ -30,5 +30,7 @@ namespace TheJudgesystem.Web.ViewModels.Defendants
 
         public IEnumerable<CaseIndicationViewModel> Indications { get; set; }
 
+        public string JuryPronouncement { get; set; }
+
     }
 }

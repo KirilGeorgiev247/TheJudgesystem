@@ -47,7 +47,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             return lawyer;
         }
 
-        public async Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4)
+        public async Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 1)
         {
             var lawyer = await this.GetLawyer(user);
 

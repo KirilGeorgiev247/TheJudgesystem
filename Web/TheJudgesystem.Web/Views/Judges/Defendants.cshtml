@@ -1,7 +1,7 @@
-﻿@using TheJudgesystem.Web.ViewModels.Witnesses
-@model WitnessesListViewModel
+﻿@using TheJudgesystem.Web.ViewModels.Judges
+@model JudgesListViewModel
 <div>
-    <h1 class="text-center mt-2">Cases</h1>
+    <h1 class="text-center mt-2">Defendants</h1>
     <hr />
 
     @foreach (var casee in Model.Cases)
@@ -26,6 +26,9 @@
                     </div>
                     <div>
                         <a id="5" class="nav-link" href="#item-5" onclick="changeColor(this.id)">Prosecutor's decision</a>
+                    </div>
+                    <div>
+                        <a id="6" class="nav-link" href="#item-6" onclick="changeColor(this.id)">Indications</a>
                     </div>
                 </nav>
 
@@ -69,9 +72,18 @@
                     <h4 id="item-5">Prosecutor's decision</h4>
                     <p>@casee.ProsecutorDecision</p>
                 </div>
+                <hr />
+                <div>
+                    <h4 id="item-6">Indications</h4>
+                    @foreach (var indication in casee.Indications)
+                    {
+
+    <label>@indication.WitnessFirstName @indication.WitnessLastName:</label>
+                        <p>@indication.Description</p>}
+                </div>
             </div>
             <div class="m-md-3">
-                <a asp-controller="Witnesses" asp-action="Indications" asp-route-id="@casee.Id" class="btn btn-block btn-outline-dark">Tell your indications</a>
+                <a asp-controller="Judges" asp-action="Decision" asp-route-id="@casee.Id" class="btn btn-block btn-outline-dark">Decide</a>
             </div>
         </div>
     </div>
@@ -85,9 +97,7 @@
 @section Scripts
 {
 
-    <script>
-
-        function changeColor(id) {
+    <script>function changeColor(id) {
             var activeElement = document.getElementsByClassName("nav-link active");
             activeElement[0].classList.remove("active");
 
@@ -103,10 +113,6 @@
                     "left": ($(window).scrollLeft()) + "px",
                 });
             });
-        }
-
-    </script>
+        }</script>
 
 }
-
-

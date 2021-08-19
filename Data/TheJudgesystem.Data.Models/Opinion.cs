@@ -24,5 +24,10 @@ namespace TheJudgesystem.Data.Models
 
         [ForeignKey(nameof(Jurymember))]
         public int? JurymemberId { get; set; }
+
+        public Jury Jury { get; set; }
+        
+        [ForeignKey(nameof(Jury))]
+        public int? JuryId { get; set; }
     }
 }

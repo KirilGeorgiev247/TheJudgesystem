@@ -27,6 +27,7 @@
                 GlobalConstants.ProsecutorRole => this.Redirect("/Prosecutors/Cases"),
                 GlobalConstants.WitnessRole => this.Redirect("/Witnesses/Cases"),
                 GlobalConstants.JurymemberRole => this.Redirect("/Jurymembers/Cases"),
+                GlobalConstants.JudgeRole => this.Redirect("/Judges/Defendants"),
                 _ => this.View(),
             };
         }

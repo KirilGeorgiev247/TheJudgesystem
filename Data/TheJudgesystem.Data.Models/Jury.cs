@@ -9,6 +9,7 @@
         public Jury()
         {
             this.Members = new HashSet<Jurymember>();
+            this.Opinions = new HashSet<Opinion>();
         }
 
         public ICollection<Jurymember> Members { get; set; }
@@ -19,6 +20,8 @@
 
         [ForeignKey(nameof(Case))]
         public int CaseId { get; set; }
+
+        public ICollection<Opinion> Opinions { get; set; }
 
     }
 }

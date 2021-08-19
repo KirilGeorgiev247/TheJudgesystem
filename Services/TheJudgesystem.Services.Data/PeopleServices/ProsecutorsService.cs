@@ -80,7 +80,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         {
             var @case = await this.casesRepository.All().FirstOrDefaultAsync(x => x.Id == caseId);
 
-            @case.ProsecutorId = this.GetProsecutor(user).Id;
+            var prosecutor = await this.GetProsecutor(user);
+
+            @case.ProsecutorId = prosecutor.Id;
             @case.ProsecutorDecision = input.ProsecutorDecision;
             @case.IsSolved = true;
 
@@ -93,7 +95,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
             var @case = await this.casesRepository.All().FirstOrDefaultAsync(x => x.Id == caseId);
 
-            @case.ProsecutorId = this.GetProsecutor(user).Id;
+            var prosecutor = await this.GetProsecutor(user);
+
+            @case.ProsecutorId = prosecutor.Id;
             @case.ProsecutorDecision = input.ProsecutorDecision;
             @case.IsSolved = true;
 

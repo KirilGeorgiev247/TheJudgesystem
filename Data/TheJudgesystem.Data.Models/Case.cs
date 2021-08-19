@@ -13,6 +13,7 @@
         {
             this.IsSolved = false;
             this.Indications = new HashSet<Indication>();
+            this.Witnesses = new HashSet<Witness>();
         }
 
         public Defendant Defendant { get; set; }
@@ -44,6 +45,8 @@
         public bool IsSolved { get; set; }
 
         public ICollection<Indication> Indications { get; set; }
+
+        public ICollection<Witness> Witnesses { get; set; }
 
         public string LawyerDefence { get; set; }
 

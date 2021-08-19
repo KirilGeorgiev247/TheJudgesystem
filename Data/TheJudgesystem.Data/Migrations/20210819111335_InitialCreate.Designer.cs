@@ -10,7 +10,7 @@ using TheJudgesystem.Data;
 namespace TheJudgesystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210816131147_InitialCreate")]
+    [Migration("20210819111335_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -536,7 +536,7 @@ namespace TheJudgesystem.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CaseId")
+                    b.Property<int>("CaseId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
@@ -555,7 +555,7 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("WitnessId")
+                    b.Property<int>("WitnessId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -625,6 +625,9 @@ namespace TheJudgesystem.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CaseId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -641,6 +644,8 @@ namespace TheJudgesystem.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CaseId");
 
                     b.HasIndex("IsDeleted");
 
@@ -677,7 +682,7 @@ namespace TheJudgesystem.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Opinion")
+                    b.Property<int?>("OpinionId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -688,6 +693,8 @@ namespace TheJudgesystem.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("JuryId");
+
+                    b.HasIndex("OpinionId");
 
                     b.ToTable("Jurymembers");
                 });
@@ -742,6 +749,49 @@ namespace TheJudgesystem.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Lawyers");
+                });
+
+            modelBuilder.Entity("TheJudgesystem.Data.Models.Opinion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CaseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Guiltiness")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("JurymemberId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CaseId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("JurymemberId");
+
+                    b.ToTable("Opinions");
                 });
 
             modelBuilder.Entity("TheJudgesystem.Data.Models.Prison", b =>
@@ -1050,11 +1100,15 @@ namespace TheJudgesystem.Data.Migrations
                 {
                     b.HasOne("TheJudgesystem.Data.Models.Case", "Case")
                         .WithMany("Indications")
-                        .HasForeignKey("CaseId");
+                        .HasForeignKey("CaseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("TheJudgesystem.Data.Models.Witness", "Witness")
                         .WithMany()
-                        .HasForeignKey("WitnessId");
+                        .HasForeignKey("WitnessId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Case");
 
@@ -1072,13 +1126,30 @@ namespace TheJudgesystem.Data.Migrations
                     b.Navigation("CV");
                 });
 
+            modelBuilder.Entity("TheJudgesystem.Data.Models.Jury", b =>
+                {
+                    b.HasOne("TheJudgesystem.Data.Models.Case", "Case")
+                        .WithMany()
+                        .HasForeignKey("CaseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Case");
+                });
+
             modelBuilder.Entity("TheJudgesystem.Data.Models.Jurymember", b =>
                 {
                     b.HasOne("TheJudgesystem.Data.Models.Jury", "Jury")
                         .WithMany("Members")
                         .HasForeignKey("JuryId");
 
+                    b.HasOne("TheJudgesystem.Data.Models.Opinion", "Opinion")
+                        .WithMany()
+                        .HasForeignKey("OpinionId");
+
                     b.Navigation("Jury");
+
+                    b.Navigation("Opinion");
                 });
 
             modelBuilder.Entity("TheJudgesystem.Data.Models.Lawyer", b =>
@@ -1090,6 +1161,21 @@ namespace TheJudgesystem.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("CV");
+                });
+
+            modelBuilder.Entity("TheJudgesystem.Data.Models.Opinion", b =>
+                {
+                    b.HasOne("TheJudgesystem.Data.Models.Case", "Case")
+                        .WithMany()
+                        .HasForeignKey("CaseId");
+
+                    b.HasOne("TheJudgesystem.Data.Models.Jurymember", "Jurymember")
+                        .WithMany()
+                        .HasForeignKey("JurymemberId");
+
+                    b.Navigation("Case");
+
+                    b.Navigation("Jurymember");
                 });
 
             modelBuilder.Entity("TheJudgesystem.Data.Models.Prosecutor", b =>

@@ -1,65 +1,122 @@
 ﻿@using TheJudgesystem.Web.ViewModels.Jurymember
 @model JurymembersListViewModel
-<h1 class="text-center mt-2">Cases</h1>
-<hr />
-<div class="row mt-auto mb-auto">
-    @foreach (var casee in this.Model.Cases)
-    {
-<div class="col-6 col-lg-3 text-wrap">
-    <div class="w-75 p-3" style="background-color: #eee;">
-        <img src="@casee.DefendantImageUrl"
-             class="img-fluid">
-    </div>
-    <div class="align-content-lg-center">
-        <h5 class="card-title text-center" data-toggle="tooltip" data-placement="bottom">
-            <div class="text-left text-wrap">
-                <label>Defendant:</label>
-                <span>@casee.DefendantFirstName @casee.DefendantLastName</span>
-            </div>
-
-            <div class="text-left text-wrap">
-                <label>Charges:</label>
-                <span>@casee.DefendantCharges</span>
-            </div>
-
-            <div class="text-left text-wrap">
-                <label>Description:</label>
-                <span>@casee.Description </span>
-            </div>
-
-            <div class="text-left text-wrap">
-                <label>Lawyer defence:</label>
-                <span>@casee.LawyerDefence </span>
-            </div>
-
-            <div class="text-left text-wrap">
-                <label>Prosecutor decision:</label>
-                <span>@casee.ProsecutorDecision </span>
-            </div>
-
-        </h5>
-    </div>
-    @if (casee.Indications.Count == 0)
-    {
 <div>
-    <label>Indications:</label>
-    <span>There are no witnesses!</span>
-</div> }
-else
-{
-<div>
+    <h1 class="text-center mt-2">Cases</h1>
+    <hr />
 
-    @foreach (var indication in casee.Indications)
+    @foreach (var casee in Model.Cases)
     {
+<div id="test">
+    <div class="row">
+        <div id="Container" class="col-4 h-100 mb-3" onclick="moveTheNav()">
+            <nav id="navbar-example3" class="navbar navbar-light bg-light flex-column align-items-stretch p-3 navbar-static-top" role="navigation">
+                <a class="navbar-brand" href="#">Menu</a>
+                <nav class="nav nav-pills flex-column">
+                    <div>
+                        <a id="1" class="nav-link active" href="#item-1" onclick="changeColor(this.id)">Defendant</a>
+                    </div>
+                    <div>
+                        <a id="2" class="nav-link" href="#item-2" onclick="changeColor(this.id)">Charges</a>
+                    </div>
+                    <div>
+                        <a id="3" class="nav-link" href="#item-3" onclick="changeColor(this.id)">Description of defendant</a>
+                    </div>
+                    <div>
+                        <a id="4" class="nav-link" href="#item-4" onclick="changeColor(this.id)">Lawyer's defence</a>
+                    </div>
+                    <div>
+                        <a id="5" class="nav-link" href="#item-5" onclick="changeColor(this.id)">Prosecutor's decision</a>
+                    </div>
+                    <div>
+                        <a id="6" class="nav-link" href="#item-6" onclick="changeColor(this.id)">Indications</a>
+                    </div>
+                </nav>
+
+            </nav>
+        </div>
+        <div class="col-8">
+            <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="0" class="scrollspy-example-2 border border-secondary rounded text-light " tabindex="0" style="background-color: darkgray;">
+                <h4 id="item-1">Defendant</h4>
+                <hr />
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5 class="card-title text-center" data-toggle="tooltip" data-placement="bottom">
+                            <div class="text-left">
+                                <span>Firstname: @casee.DefendantFirstName</span>
+                                <span>Lastname: @casee.DefendantLastName</span>
+                            </div>
+                        </h5>
+                    </div>
+                    <div class="col-md-4 w-auto p-1">
+                        <img src="@casee.DefendantImageUrl"
+                             class="img-fluid rounded-circle">
+                    </div>
+                </div>
+                <hr />
+                <div>
+                    <h4 id="item-2">Charges</h4>
+                    <p>@casee.DefendantCharges</p>
+                </div>
+                <hr />
+                <div>
+                    <h4 id="item-3">Description of defendant</h4>
+                    <p>@casee.Description</p>
+                </div>
+                <hr />
+                <div>
+                    <h4 id="item-4">Lawyer's defence</h4>
+                    <p>@casee.LawyerDefence</p>
+                </div>
+                <hr />
+                <div>
+                    <h4 id="item-5">Prosecutor's decision</h4>
+                    <p>@casee.ProsecutorDecision</p>
+                </div>
+                <hr />
+                <div>
+                    <h4 id="item-6">Indications</h4>
+                    @foreach (var indication in casee.Indications)
+                    {
 
     <label>@indication.WitnessFirstName @indication.WitnessLastName:</label>
-    <span>@indication.Description</span>
-
-    }
-</div>}
-    <a asp-controller="Jurymembers" asp-action="Opinion" asp-route-id="@casee.Id" class="btn btn-block btn-primary">Tell your indications</a>
+                        <p>@indication.Description</p>}
+                </div>
+            </div>
+            <div class="m-md-3">
+                <a asp-controller="Jurymembers" asp-action="Opinion" asp-route-id="@casee.Id" class="btn btn-block btn-outline-dark">Tell your opinion</a>
+            </div>
+        </div>
+    </div>
 </div>}
 </div>
 
+<hr />
 
 <partial name="_PagingPartial" model="@Model" />
+
+@section Scripts
+{
+
+    <script>
+
+        function changeColor(id) {
+            var activeElement = document.getElementsByClassName("nav-link active");
+            activeElement[0].classList.remove("active");
+
+            var element = document.getElementById(id);
+
+            element.classList.add("active");
+        }
+
+        function moveTheNav() {
+            $(window).scroll(function () {
+                $("#Container").css({
+                    "top": ($(window).scrollTop()) + "px",
+                    "left": ($(window).scrollLeft()) + "px",
+                });
+            });
+        }
+
+    </script>
+
+}

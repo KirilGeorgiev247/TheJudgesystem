@@ -15,7 +15,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public Task<Lawyer> GetLawyer(ClaimsPrincipal user);
 
-        public Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 4);
+        public Task<ICollection<CaseInList>> GetCases(ClaimsPrincipal user, int page, int itemsPerPage = 1);
 
         public Task AddDefence(DefenceInputModel input, int caseId);
 

@@ -79,23 +79,6 @@ namespace TheJudgesystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Juries",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Pronouncement = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Juries", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Prisons",
                 columns: table => new
                 {
@@ -295,33 +278,6 @@ namespace TheJudgesystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Jurymembers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Opinion = table.Column<int>(type: "int", nullable: false),
-                    JuryId = table.Column<int>(type: "int", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Jurymembers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Jurymembers_Juries_JuryId",
-                        column: x => x.JuryId,
-                        principalTable: "Juries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cells",
                 columns: table => new
                 {
@@ -426,8 +382,8 @@ namespace TheJudgesystem.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CaseId = table.Column<int>(type: "int", nullable: true),
-                    WitnessId = table.Column<int>(type: "int", nullable: true),
+                    CaseId = table.Column<int>(type: "int", nullable: false),
+                    WitnessId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -436,6 +392,77 @@ namespace TheJudgesystem.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Indications", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Juries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Pronouncement = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CaseId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Juries", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Opinions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Guiltiness = table.Column<int>(type: "int", nullable: false),
+                    CaseId = table.Column<int>(type: "int", nullable: true),
+                    JurymemberId = table.Column<int>(type: "int", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Opinions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Jurymembers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OpinionId = table.Column<int>(type: "int", nullable: true),
+                    JuryId = table.Column<int>(type: "int", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Jurymembers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Jurymembers_Juries_JuryId",
+                        column: x => x.JuryId,
+                        principalTable: "Juries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Jurymembers_Opinions_OpinionId",
+                        column: x => x.OpinionId,
+                        principalTable: "Opinions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -713,6 +740,11 @@ namespace TheJudgesystem.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Juries_CaseId",
+                table: "Juries",
+                column: "CaseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Juries_IsDeleted",
                 table: "Juries",
                 column: "IsDeleted");
@@ -728,6 +760,11 @@ namespace TheJudgesystem.Data.Migrations
                 column: "JuryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Jurymembers_OpinionId",
+                table: "Jurymembers",
+                column: "OpinionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Lawyers_CVId",
                 table: "Lawyers",
                 column: "CVId");
@@ -736,6 +773,21 @@ namespace TheJudgesystem.Data.Migrations
                 name: "IX_Lawyers_IsDeleted",
                 table: "Lawyers",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Opinions_CaseId",
+                table: "Opinions",
+                column: "CaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Opinions_IsDeleted",
+                table: "Opinions",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Opinions_JurymemberId",
+                table: "Opinions",
+                column: "JurymemberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Prisons_IsDeleted",
@@ -802,6 +854,30 @@ namespace TheJudgesystem.Data.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Juries_Cases_CaseId",
+                table: "Juries",
+                column: "CaseId",
+                principalTable: "Cases",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Opinions_Cases_CaseId",
+                table: "Opinions",
+                column: "CaseId",
+                principalTable: "Cases",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Opinions_Jurymembers_JurymemberId",
+                table: "Opinions",
+                column: "JurymemberId",
+                principalTable: "Jurymembers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Prosecutors_Cases_CaseId",
                 table: "Prosecutors",
                 column: "CaseId",
@@ -829,6 +905,10 @@ namespace TheJudgesystem.Data.Migrations
                 table: "Cases");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Jurymembers_Juries_JuryId",
+                table: "Jurymembers");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Cases_Lawyers_LawyerId",
                 table: "Cases");
 
@@ -841,12 +921,20 @@ namespace TheJudgesystem.Data.Migrations
                 table: "Indications");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Opinions_Cases_CaseId",
+                table: "Opinions");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Witnesses_Cases_CaseId",
                 table: "Witnesses");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Indications_Witnesses_WitnessId",
                 table: "Indications");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Jurymembers_Opinions_OpinionId",
+                table: "Jurymembers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -865,9 +953,6 @@ namespace TheJudgesystem.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Guards");
-
-            migrationBuilder.DropTable(
-                name: "Jurymembers");
 
             migrationBuilder.DropTable(
                 name: "Settings");
@@ -910,6 +995,12 @@ namespace TheJudgesystem.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Indications");
+
+            migrationBuilder.DropTable(
+                name: "Opinions");
+
+            migrationBuilder.DropTable(
+                name: "Jurymembers");
         }
     }
 }
