@@ -19,5 +19,7 @@ namespace TheJudgesystem.Web.ViewModels.Lawyers
         public string DefendantLastName { get; set; }
 
         public string DefendantCharges { get; set; }
+
+        public DefendantViewModel Defendant { get; set; }
     }
 }

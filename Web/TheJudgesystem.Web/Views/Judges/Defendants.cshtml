@@ -1,7 +1,9 @@
 ﻿@using TheJudgesystem.Web.ViewModels.Judges
+@using TheJudgesystem.Common
 @model JudgesListViewModel
+
 <div>
-    <h1 class="text-center mt-2">Defendants</h1>
+    <h1 class="text-center mt-2">Cases</h1>
     <hr />
 
     @foreach (var casee in Model.Cases)
@@ -29,6 +31,9 @@
                     </div>
                     <div>
                         <a id="6" class="nav-link" href="#item-6" onclick="changeColor(this.id)">Indications</a>
+                    </div>
+                    <div>
+                        <a id="7" class="nav-link" href="#item-7" onclick="changeColor(this.id)">Jury pronouncement</a>
                     </div>
                 </nav>
 
@@ -81,6 +86,17 @@
     <label>@indication.WitnessFirstName @indication.WitnessLastName:</label>
                         <p>@indication.Description</p>}
                 </div>
+                <div>
+                    <h4 id="item-7">Jury pronouncement</h4>
+                    @if (casee.JuryPronouncement == GlobalConstants.JuryGuiltyPronouncement)
+                    {
+                        <h4 class="text-danger">@casee.JuryPronouncement</h4>
+                    }
+                    else if (casee.JuryPronouncement == GlobalConstants.JuryNotGuiltyPronouncement)
+                    {
+                        <h4 class="text-success">@casee.JuryPronouncement</h4>
+                    }
+                </div>
             </div>
             <div class="m-md-3">
                 <a asp-controller="Judges" asp-action="Decision" asp-route-id="@casee.Id" class="btn btn-block btn-outline-dark">Decide</a>
@@ -97,7 +113,8 @@
 @section Scripts
 {
 
-    <script>function changeColor(id) {
+    <script>
+    function changeColor(id) {
             var activeElement = document.getElementsByClassName("nav-link active");
             activeElement[0].classList.remove("active");
 

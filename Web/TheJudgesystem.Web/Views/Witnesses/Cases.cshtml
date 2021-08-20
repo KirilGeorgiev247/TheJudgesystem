@@ -4,8 +4,15 @@
     <h1 class="text-center mt-2">Cases</h1>
     <hr />
 
-    @foreach (var casee in Model.Cases)
+    @if (Model.Cases.Count == 0)
     {
+<div class="text-center">
+    <h3>There are no cases yet!</h3>
+</div> }
+            else
+            {
+@foreach (var casee in Model.Cases)
+{
 <div id="test">
     <div class="row">
         <div id="Container" class="col-4 h-100 mb-3" onclick="moveTheNav()">
@@ -75,7 +82,7 @@
             </div>
         </div>
     </div>
-</div>}
+</div>}}
 </div>
 
 <hr />

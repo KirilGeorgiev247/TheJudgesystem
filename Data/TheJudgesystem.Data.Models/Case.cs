@@ -37,6 +37,11 @@
         [ForeignKey(nameof(Prosecutor))]
         public int? ProsecutorId { get; set; }
 
+        public Judge Judge { get; set; }
+
+        [ForeignKey(nameof(Judge))]
+        public int? JudgeId { get; set; }
+
         [Required]
         public string Description { get; set; }
 
@@ -53,6 +58,8 @@
         public string ProsecutorDecision { get; set; }
 
         public string JudgeDecision { get; set; }
+
+
 
     }
 }

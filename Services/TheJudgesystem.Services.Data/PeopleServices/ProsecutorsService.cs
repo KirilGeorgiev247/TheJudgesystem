@@ -35,6 +35,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         {
             var count = await this.casesRepository.AllAsNoTracking()
                 .Where(x => !string.IsNullOrWhiteSpace(x.LawyerDefence)
+                && string.IsNullOrWhiteSpace(x.ProsecutorDecision)
                         && !x.IsSolved)
                 .CountAsync();
             return count;
@@ -91,15 +92,15 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public async Task DecideForFee(DecisionInputModel input, int caseId, ClaimsPrincipal user)
         {
-            // Add fee to defendant
-
             var @case = await this.casesRepository.All().FirstOrDefaultAsync(x => x.Id == caseId);
 
             var prosecutor = await this.GetProsecutor(user);
+            var defendant = await this.defendantsRepository.All().FirstOrDefaultAsync(x => x.CaseId == caseId);
 
             @case.ProsecutorId = prosecutor.Id;
             @case.ProsecutorDecision = input.ProsecutorDecision;
             @case.IsSolved = true;
+            defendant.HasFees = true;
 
             await this.casesRepository.SaveChangesAsync();
         }

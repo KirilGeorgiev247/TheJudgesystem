@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TheJudgesystem.Common;
 using TheJudgesystem.Services.Data.PeopleServices;
 using TheJudgesystem.Web.ViewModels.Judges;
 
@@ -42,32 +43,32 @@ namespace TheJudgesystem.Web.Controllers
             return this.View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Decision(DecisionInputModel input, int id, string button)
-        //{
+        [HttpPost]
+        public async Task<IActionResult> Decision(DecisionInputModel input, int id, string button)
+        {
 
-        //    if (!this.ModelState.IsValid)
-        //    {
-        //        return this.View();
-        //    }
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
 
-        //    switch (button)
-        //    {
-        //        case GlobalConstants.Guilty:
-        //            await this.prosecutorsService.DecideForGuilty(input, id, this.User);
-        //            break;
-        //        case GlobalConstants.NotGuilty:
-        //            await this.prosecutorsService.DecideForNotGuilty(input, id, this.User);
-        //            break;
-        //        case GlobalConstants.Fee:
-        //            await this.prosecutorsService.DecideForFee(input, id, this.User);
-        //            break;
-        //        default:
-        //            break;
-        //    }
+            switch (button)
+            {
+                case GlobalConstants.Guilty:
+                    await this.judgesService.DecideForGuilty(input, id, this.User);
+                    break;
+                case GlobalConstants.NotGuilty:
+                    await this.judgesService.DecideForNotGuilty(input, id, this.User);
+                    break;
+                case GlobalConstants.Fee:
+                    await this.judgesService.DecideForFee(input, id, this.User);
+                    break;
+                default:
+                    break;
+            }
 
-        //    return this.Redirect("/Prosecutors/Cases");
-        //}
+            return this.Redirect("/Judges/Defendants");
+        }
 
     }
 }

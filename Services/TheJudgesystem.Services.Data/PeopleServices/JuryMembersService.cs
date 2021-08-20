@@ -43,13 +43,20 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             var juryMember = await this.GetJuryMember(user);
             var jury = await this.juriesRepository.All().FirstOrDefaultAsync(x => x.Id == juryMember.JuryId);
 
+            bool isPronouncementEmpty = true;
             bool hasAnnounced = false;
-            bool hasThreeMembers = false;
 
             if (jury != null)
             {
-                hasAnnounced = jury.Members.Any(x => x.Id == juryMember.Id);
-                hasThreeMembers = jury.Members.Count == 3;
+                if (string.IsNullOrWhiteSpace(jury.Pronouncement))
+                {
+                    isPronouncementEmpty = false;
+                }
+            }
+
+            if (juryMember.JuryId != null)
+            {
+                hasAnnounced = true;
             }
 
             var count = await this.casesRepository.AllAsNoTracking()
@@ -58,8 +65,8 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                         && !x.IsSolved
                         && x.Defendant.IsGuilty
                         && x.Indications.Count != 0
-                        && !hasAnnounced
-                        && !hasThreeMembers)
+                        && isPronouncementEmpty
+                        && !hasAnnounced)
                 .CountAsync();
             return count;
         }
@@ -76,13 +83,20 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             var juryMember = await this.GetJuryMember(user);
             var jury = await this.juriesRepository.All().FirstOrDefaultAsync(x => x.Id == juryMember.JuryId);
 
+            bool isPronouncementEmpty = true;
             bool hasAnnounced = false;
-            bool hasThreeMembers = false;
 
             if (jury != null)
             {
-                hasAnnounced = jury.Members.Any(x => x.Id == juryMember.Id);
-                hasThreeMembers = jury.Members.Count == 3;
+                if (string.IsNullOrWhiteSpace(jury.Pronouncement))
+                {
+                    isPronouncementEmpty = false;
+                }
+            }
+
+            if (juryMember.JuryId != null)
+            {
+                hasAnnounced = true;
             }
 
             var result = await this.casesRepository.All()
@@ -92,8 +106,8 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                         && !x.IsSolved
                         && x.Defendant.IsGuilty
                         && x.Indications.Count != 0
-                        && !hasAnnounced
-                        && !hasThreeMembers)
+                        && isPronouncementEmpty
+                        && !hasAnnounced)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<CaseInList>()
@@ -132,14 +146,20 @@ namespace TheJudgesystem.Services.Data.PeopleServices
             var count = jury.Members.Count;
             var opinionsCount = jury.Opinions.Count;
 
-            if (jury.Members.Count == 2)
+            var members = await this.juryMembersRepository.All().Where(x => x.JuryId == jury.Id).ToListAsync();
+
+            if (members.Count == 2)
             {
+                members.Add(juryMember);
+
                 var guilty = 0;
                 var notGuilty = 0;
 
-                foreach (var member in jury.Members)
+                foreach (var member in members)
                 {
-                    switch (member.Opinion.Guiltiness)
+                    var juryMemberOpinion = await this.opinionsRepository.All().FirstOrDefaultAsync(x => x.Id == member.OpinionId);
+
+                    switch (juryMemberOpinion.Guiltiness)
                     {
                         case GuiltinessEnumeration.Guilty:
                             guilty++;
@@ -156,7 +176,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                 {
                     jury.Pronouncement = GlobalConstants.JuryNotGuiltyPronouncement;
                 }
-                else
+                else if (notGuilty < guilty)
                 {
                     jury.Pronouncement = GlobalConstants.JuryGuiltyPronouncement;
                 }

@@ -29,5 +29,8 @@ namespace TheJudgesystem.Web.ViewModels.Judges
 
         public string JuryPronouncement { get; set; }
 
+        public string JudgeDecision { get; set; }
+
+        public DefendantViewModel Defendant { get; set; }
     }
 }

@@ -347,6 +347,7 @@ namespace TheJudgesystem.Data.Migrations
                     IsGuilty = table.Column<bool>(type: "bit", nullable: false),
                     Charges = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PrisonId = table.Column<int>(type: "int", nullable: true),
+                    HasFees = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -422,6 +423,7 @@ namespace TheJudgesystem.Data.Migrations
                     Guiltiness = table.Column<int>(type: "int", nullable: false),
                     CaseId = table.Column<int>(type: "int", nullable: true),
                     JurymemberId = table.Column<int>(type: "int", nullable: true),
+                    JuryId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -430,6 +432,12 @@ namespace TheJudgesystem.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Opinions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Opinions_Juries_JuryId",
+                        column: x => x.JuryId,
+                        principalTable: "Juries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -504,13 +512,13 @@ namespace TheJudgesystem.Data.Migrations
                     LawyerId = table.Column<int>(type: "int", nullable: true),
                     JuryId = table.Column<int>(type: "int", nullable: true),
                     ProsecutorId = table.Column<int>(type: "int", nullable: true),
+                    JudgeId = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsSolved = table.Column<bool>(type: "bit", nullable: false),
                     LawyerDefence = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProsecutorDecision = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     JudgeDecision = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    JudgeId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -785,6 +793,11 @@ namespace TheJudgesystem.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Opinions_JuryId",
+                table: "Opinions",
+                column: "JuryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Opinions_JurymemberId",
                 table: "Opinions",
                 column: "JurymemberId");
@@ -907,6 +920,10 @@ namespace TheJudgesystem.Data.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Jurymembers_Juries_JuryId",
                 table: "Jurymembers");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Opinions_Juries_JuryId",
+                table: "Opinions");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Cases_Lawyers_LawyerId",

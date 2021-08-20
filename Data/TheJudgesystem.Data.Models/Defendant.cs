@@ -11,6 +11,7 @@
         public Defendant()
         {
             this.IsGuilty = false;
+            this.HasFees = false;
         }
 
         public string UserId { get; set; }
@@ -51,5 +52,7 @@
 
         [ForeignKey(nameof(Prison))]
         public int? PrisonId { get; set; }
+
+        public bool HasFees { get; set; }
     }
 }

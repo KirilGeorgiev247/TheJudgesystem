@@ -8,97 +8,9 @@
 
 <hr />
 
-    @foreach (var casee in Model.Cases)
-    {
-<div id="test">
-    <div class="row">
-        <div id="Container" class="col-4 h-100 mb-3" onclick="changeColor()">
-            <nav id="navbar-example3" class="navbar navbar-light bg-light flex-column align-items-stretch p-3 navbar-static-top" role="navigation">
-                <a class="navbar-brand" href="#">Menu</a>
-                <nav class="nav nav-pills flex-column">
-                    <div>
-                        <a class="nav-link mt-sm-4 my-1 active" href="#item-1">Defendant</a>
-                    </div>
-                    <div>
-                        <a class="nav-link mt-sm-4 my-1" href="#item-2">Charges</a>
-                    </div>
-                    <div>
-                        <a class="nav-link mt-sm-4 my-1" href="#item-3">Description of defendant</a>
-                    </div>
-                    <div>
-                        <a class="nav-link mt-sm-4 my-1" href="#item-4">Lawyer's defence</a>
-                    </div>
-                    <div>
-                        <a class="nav-link mt-sm-4 my-1" href="#item-5">Prosecutor's decision</a>
-                    </div>
-                    <div>
-                        <a class="nav-link mt-sm-4 my-1" href="#item-6">Indications</a>
-                    </div>
-                </nav>
+<div class="row">
 
-            </nav>
-        </div>
-        <div class="col-8">
-            <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="0" class="scrollspy-example-2 border border-secondary rounded text-light " tabindex="0" style="background-color: darkgray;">
-                <h4 id="item-1">Defendant</h4>
-                <hr />
-                <div class="row">
-                    <div class="col-md-4">
-                        <h5 class="card-title text-center" data-toggle="tooltip" data-placement="bottom">
-                            <div class="text-left">
-                                <span>Firstname: @casee.DefendantFirstName</span>
-                                <span>Lastname: @casee.DefendantLastName</span>
-                            </div>
-                        </h5>
-                    </div>
-                    <div class="col-md-4 w-auto p-1">
-                        <img src="@casee.DefendantImageUrl"
-                             class="img-fluid rounded-circle">
-                    </div>
-                </div>
-                <hr />
-                <div>
-                    <h4 id="item-2">Charges</h4>
-                    <p>@casee.DefendantCharges</p>
-                </div>
-                <hr />
-                <div>
-                    <h4 id="item-3">Description of defendant</h4>
-                    <p>@casee.Description</p>
-                </div>
-                <hr />
-                <div>
-                    <h4 id="item-4">Lawyer's defence</h4>
-                    <p>@casee.LawyerDefence</p>
-                </div>
-                <hr />
-                <div>
-                    <h4 id="item-5">Prosecutor's decision</h4>
-                    <p>@casee.ProsecutorDecision</p>
-                </div>
-                <hr />
-                <div>
-                    <h4 id="item-6">Indications</h4>
-                    @foreach (var indication in casee.Indications)
-                    {
-
-    <label>@indication.WitnessFirstName @indication.WitnessLastName:</label>
-                        <p>@indication.Description</p>}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-                <div class="m-md-3">
-                    <a asp-controller="Jurymembers" asp-action="Opinion" asp-route-id="@casee.Id" class="btn btn-block btn-outline-dark">Tell your opinion</a>
-                </div>}
-
-<hr />
-
-
-<div class="row justify-content-center">
-
-    <div class="card rounded float-left" style="width: 18rem;">
+    <div class="card col-md-3" style="width: 18rem;">
         <img class="card-img-top img-fluid" src="@Model.Lawyer.ImageUrl" alt="Card image cap" style="width:18rem">
         <div class="card-body">
             <h5 class="card-title text-center" data-toggle="tooltip" data-placement="bottom">
@@ -137,7 +49,16 @@
                     </div>
                     <div class="text-center">
                         <label class="text-black-50">Achivements:</label>
+                        @if (string.IsNullOrWhiteSpace(Model.Lawyer.CV.Achievements))
+                        {
+                            <span class="text-center">Still not given</span>
+
+                        }
+                        else
+                        {
+
                         <span class="text-center">@Model.Lawyer.CV.Achievements</span>
+                        }
                     </div>
                 </div>
 
@@ -146,7 +67,7 @@
         </div>
     </div>
 
-    <div class="card rounded float-lg-right" style="width: 18rem;">
+    <div class="card col-md-3" style="width: 18rem;">
         <img src="@Model.ImageUrl" class="card-img-top img-fluid" alt="Card image cap" style="width:18rem">
         <div class="card-body">
             <h5 class="card-title text-center">Case information</h5>
@@ -176,14 +97,10 @@
                         }
                     </div>
                     <div class="text-center">
-                        <label class="text-black-50">Description:</label>
-                        <p class="text-center">@Model.Case.Description</p>
-                    </div>
-                    <div class="text-center">
-                        <label class="text-black-50">Date:</label>
-                        @if (Model.Case.Date != null)
+                        <label class="text-black-50">Judge:</label>
+                        @if (Model.Case.JudgeId != null)
                         {
-                            <span class="text-center">@Model.Case.Date?.ToString("dd-mmm-yyyy hh:mm")</span>
+                            <span class="text-center">@Model.Case.JudgeFirstName @Model.Case.JudgeLastName</span>
                         }
                         else
                         {
@@ -194,43 +111,22 @@
                         <label class="text-black-50">Case process:</label>
                         @if (Model.Case.IsSolved)
                         {
+                            if (Model.Case.DefendantHasFees)
+                            {
+                                <span class="text-center">A fee is coming on your way!</span>
+
+                            }
+                            else
+                            {
+
                             <span class="text-center">The case is solved!</span>
+                            }
                         }
                         else
                         {
                             <span class="text-center">The case is still in process!</span>
                         }
                     </div>
-
-                    @if (Model.Case.Indications.Count() > 0)
-                    {
-                        <div class="text-center">
-                            <label class="text-black-50">Indications:</label>
-
-                            @foreach (var indication in Model.Case.Indications)
-                            {
-                                @if (indication.WitnessId != null)
-                                {
-                                    <span class="text-center">@indication.WitnessFirstName @indication.WitnessLastName</span>
-                                    <p class="text-center">
-                                        @indication.Description
-                                    </p>
-                                }
-                                else
-                                {
-                                    <span class="text-center">WitnessId is null!</span>
-                                }
-                            }
-
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="text-center">
-                            <label class="text-black-50">Indications:</label>
-                            <span class="text-center">Still not given!</span>
-                        </div>
-                    }
 
                     @if (!string.IsNullOrWhiteSpace(Model.Case.JuryPronouncement))
                     {
@@ -251,6 +147,64 @@
 
                 <a id="CaseButton" class="btn btn-light" onclick="ShowMore()">Show more</a>
             </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div>
+            <h4 id="item-4">Lawyer's defence</h4>
+            @if (string.IsNullOrWhiteSpace(Model.Case.LawyerDefence))
+            {
+                <p>Still not given</p>
+            }
+            else
+            {
+                <p>@Model.Case.LawyerDefence</p>
+
+            }
+        </div>
+        <hr />
+        <div>
+            <h4 id="item-5">Prosecutor's decision</h4>
+            @if (string.IsNullOrWhiteSpace(Model.Case.ProsecutorDecision))
+            {
+                <p>Still not given</p>
+            }
+            else
+            {
+
+                <p>@Model.Case.ProsecutorDecision</p>
+            }
+        </div>
+        <hr />
+        <div>
+            <h4 id="item-6">Indications</h4>
+            @if (Model.Case.Indications.Count() == 0)
+            {
+                <p>Still not given</p>
+            }
+            else
+            {
+
+                @foreach (var indication in Model.Case.Indications)
+                {
+
+                    <h5>@indication.WitnessFirstName @indication.WitnessLastName:</h5>
+                    <p>@indication.Description</p>}
+            }
+        </div>
+        <hr />
+        <div>
+            <h4 id="item-7">Judge's decision</h4>
+            @if (string.IsNullOrWhiteSpace(Model.Case.JudgeDecision))
+            {
+                <p>Still not given</p>
+            }
+            else
+            {
+
+                <p>@Model.Case.JudgeDecision</p>
+            }
         </div>
     </div>
 

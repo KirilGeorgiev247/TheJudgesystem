@@ -14,6 +14,12 @@ namespace TheJudgesystem.Web.ViewModels.Defendants
 
         public string LawyerLastName { get; set; }
 
+        public string JudgeFirstName { get; set; }
+
+        public string JudgeLastName { get; set; }
+
+        public int? JudgeId { get; set; }
+
         public int? LawyerId { get; set; }
 
         public string ProsecutorFirstName { get; set; }
@@ -32,5 +38,12 @@ namespace TheJudgesystem.Web.ViewModels.Defendants
 
         public string JuryPronouncement { get; set; }
 
+        public string LawyerDefence { get; set; }
+
+        public string ProsecutorDecision { get; set; }
+
+        public string JudgeDecision { get; set; }
+
+        public bool DefendantHasFees { get; set; }
     }
 }

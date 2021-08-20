@@ -34,8 +34,9 @@ namespace TheJudgesystem.Services.Data.PeopleServices
         public async Task<int> GetCasesCount()
         {
             var count = await this.casesRepository.AllAsNoTracking()
-                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence) 
-                        && !x.IsSolved)
+                .Where(x => string.IsNullOrWhiteSpace(x.LawyerDefence)
+                        && !x.IsSolved
+                        && !x.Defendant.IsDeleted)
                 .CountAsync();
             return count;
         }
@@ -55,7 +56,8 @@ namespace TheJudgesystem.Services.Data.PeopleServices
                 .OrderByDescending(x => x.Id)
                 .Where(x => x.LawyerId == lawyer.Id
                         && string.IsNullOrWhiteSpace(x.LawyerDefence)
-                        && !x.IsSolved)
+                        && !x.IsSolved
+                        && !x.Defendant.IsDeleted)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<CaseInList>()

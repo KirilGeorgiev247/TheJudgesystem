@@ -427,6 +427,9 @@ namespace TheJudgesystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("HasFees")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1027,7 +1030,7 @@ namespace TheJudgesystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TheJudgesystem.Data.Models.Judge", null)
+                    b.HasOne("TheJudgesystem.Data.Models.Judge", "Judge")
                         .WithMany("Cases")
                         .HasForeignKey("JudgeId");
 
@@ -1044,6 +1047,8 @@ namespace TheJudgesystem.Data.Migrations
                         .HasForeignKey("ProsecutorId");
 
                     b.Navigation("Defendant");
+
+                    b.Navigation("Judge");
 
                     b.Navigation("Jury");
 

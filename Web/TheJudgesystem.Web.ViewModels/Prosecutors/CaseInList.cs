@@ -22,5 +22,9 @@ namespace TheJudgesystem.Web.ViewModels.Prosecutors
         public string DefendantCharges { get; set; }
 
         public string LawyerDefence { get; set; }
+
+        public string ProsecutorDecision { get; set; }
+
+        public bool IsSolved { get; set; }
     }
 }
