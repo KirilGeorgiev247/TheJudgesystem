@@ -74,5 +74,12 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
             await this.casesRepository.SaveChangesAsync();
         }
+
+        public async Task<int> GetLawyerId(ClaimsPrincipal user)
+        {
+            var lawyer = await this.GetLawyer(user);
+
+            return lawyer.Id;
+        }
     }
 }

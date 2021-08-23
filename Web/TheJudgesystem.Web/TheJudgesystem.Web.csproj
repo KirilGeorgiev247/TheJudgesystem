@@ -36,4 +36,14 @@
     <ProjectReference Include="..\TheJudgesystem.Web.Infrastructure\TheJudgesystem.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\TheJudgesystem.Web.ViewModels\TheJudgesystem.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Defendants\Data\" />
+    <Folder Include="Areas\Defendants\Models\" />
+    <Folder Include="Areas\Defendants\Views\" />
+    <Folder Include="Areas\People\Controllers\" />
+    <Folder Include="Areas\People\Data\" />
+    <Folder Include="Areas\People\Models\" />
+    <Folder Include="Areas\People\Views\" />
+  </ItemGroup>
 </Project>

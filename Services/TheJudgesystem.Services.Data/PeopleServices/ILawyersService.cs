@@ -19,5 +19,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public Task AddDefence(DefenceInputModel input, int caseId);
 
+        public Task<int> GetLawyerId(ClaimsPrincipal user);
+
     }
 }

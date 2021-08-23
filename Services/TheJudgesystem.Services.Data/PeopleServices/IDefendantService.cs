@@ -11,7 +11,7 @@ namespace TheJudgesystem.Services.Data.PeopleServices
     public interface IDefendantService
     {
 
-        public Task<ICollection<LawyerInList>> GetLawyers(int page, int itemsPerPage = 4);
+        public Task<ICollection<T>> GetLawyers<T>(int page, int itemsPerPage = 4);
 
         public Task<int> GetCount();
 
@@ -19,13 +19,13 @@ namespace TheJudgesystem.Services.Data.PeopleServices
 
         public Task<bool> HasLawyer(ClaimsPrincipal user);
 
-        public Task<MyLawyerViewModel> GetMyLawyer(ClaimsPrincipal user);
+        public Task<T> GetMyLawyer<T>(ClaimsPrincipal user);
 
-        public Task<MyCaseViewModel> GetMyCase(ClaimsPrincipal user);
+        public Task<T> GetMyCase<T>(ClaimsPrincipal user);
 
-        public Task<InfoViewModel> GetInfo(ClaimsPrincipal user);
+        public Task<InfoViewModel> GetInfo<T>(ClaimsPrincipal user);
 
-        public Task<MyImageViewModel> GetMyImage(ClaimsPrincipal user);
+        public Task<T> GetMyImage<T>(ClaimsPrincipal user);
 
     }
 }

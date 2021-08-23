@@ -1,4 +1,4 @@
-﻿namespace TheJudgesystem.Web.Controllers
+﻿namespace TheJudgesystem.Web.Areas.Defendants
 {
     using System.Threading.Tasks;
 
@@ -9,6 +9,7 @@
     using TheJudgesystem.Web.ViewModels.Defendants;
 
     [Authorize(Roles = "Defendant")]
+    [Area("Defendants")]
     public class DefendantController : Controller
     {
         private readonly IDefendantService defendantService;

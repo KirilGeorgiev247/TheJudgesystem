@@ -110,6 +110,9 @@
                 endpoints =>
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                        //endpoints.MapControllerRoute(
+                        //    name: "Defendants",
+                        //    pattern: "{area:exists}/{controller=Defendants}/{action=Lawyers}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });
